@@ -32,10 +32,16 @@ public class ConnectDBRepository {
 		return result; 
 	}
 	
-	public void addAndPrint(String pParameter) {
-		jedis.set("foo", pParameter);
-		System.out.println(jedis);
-        System.out.println(jedis.get("foo")); // prints bar
+	public void botonDeAutoDestrucion() {
+		jedis.flushDB();
+	}
+	
+	public void closeConnection() {
+		jedis.close();
+	}
+	
+	public Jedis getJedis() {
+		return jedis;
 	}
 
 }
