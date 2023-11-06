@@ -69,9 +69,7 @@ public class AgriApplication {
 		System.out.println("PRUEBA DISTINTA");
 		userRep.findAll().forEach(element -> System.out.println(element.getName()));
 		
-		
 		redisDB.botonDeAutoDestrucion();
-		userRep.findAll().forEach(element -> System.out.println(element.getName()));
 		
 		
 	}

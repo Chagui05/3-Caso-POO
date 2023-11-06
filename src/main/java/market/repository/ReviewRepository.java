@@ -1,6 +1,7 @@
 package market.repository;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Vector;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 import market.model.Review;
+import market.model.User;
 import redis.clients.jedis.Jedis;
 
 public class ReviewRepository implements IRepository<Review>{
@@ -39,7 +41,7 @@ public class ReviewRepository implements IRepository<Review>{
     public void save(Review pReview) {
 		try {
             String reviewJson = objectMapper.writeValueAsString(pReview);
-            jedis.set("review:" + pReview.getId(), reviewJson);
+            jedis.hset("reviewHash", "review:" + pReview.getId(), reviewJson);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,7 +50,7 @@ public class ReviewRepository implements IRepository<Review>{
 
     @Override
     public Review findById(int id) {
-    	String reviewJson = jedis.get("review:" + id);
+    	String reviewJson = jedis.hget("reviewHash","review:" + id);
         if (reviewJson != null) {
             try {
                 return objectMapper.readValue(reviewJson, Review.class);
@@ -62,8 +64,10 @@ public class ReviewRepository implements IRepository<Review>{
 	@Override
 	public Vector<Review> findAll() {
 		Vector<Review> reviews = new Vector<>();
-		for (String key : jedis.keys("review:*")) {
-            String reviewJson = jedis.get(key);
+		Map<String, String> reviewHash = jedis.hgetAll("reviewHash");
+		
+		for (Map.Entry<String, String> entry : reviewHash.entrySet()) {
+            String reviewJson = entry.getValue();
             try {
                 Review review = objectMapper.readValue(reviewJson, Review.class);
                 reviews.add(review);
@@ -77,7 +81,7 @@ public class ReviewRepository implements IRepository<Review>{
 	@Override
 	public void delete(int id) {
 		String key = "review:" + id;
-		jedis.del(key);
+		jedis.hdel("reviewHash", key);
 	}
 
 

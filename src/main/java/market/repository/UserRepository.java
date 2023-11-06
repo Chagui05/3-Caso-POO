@@ -2,6 +2,7 @@ package market.repository;
 
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Vector;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,7 +39,7 @@ public class UserRepository implements IRepository<User>{
     public void save(User pUser) {
 		try {
             String userJson = objectMapper.writeValueAsString(pUser);
-            jedis.set("user:" + pUser.getId(), userJson);
+            jedis.hset("userHash", "user:" + pUser.getId(), userJson);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,7 +47,7 @@ public class UserRepository implements IRepository<User>{
 
     @Override
     public User findById(int id) {
-    	String userJson = jedis.get("user:" + id);
+    	String userJson = jedis.hget("userHash", "user:"+id);
     	try {
             return objectMapper.readValue(userJson, User.class);
         } catch (IOException e) {
@@ -58,8 +59,10 @@ public class UserRepository implements IRepository<User>{
 	@Override
 	public Vector<User> findAll() {
 		Vector<User> users = new Vector<>();
-        for (String key : jedis.keys("user:*")) {
-            String userJson = jedis.get(key);
+		Map<String, String> userHash = jedis.hgetAll("userHash");
+		
+		for (Map.Entry<String, String> entry : userHash.entrySet()) {
+            String userJson = entry.getValue();
             try {
                 User user = objectMapper.readValue(userJson, User.class);
                 users.add(user);
@@ -73,8 +76,7 @@ public class UserRepository implements IRepository<User>{
 	@Override
 	public void delete(int id) {
 		String key = "user:" + id;
-		jedis.del(key);
-		
+		jedis.hdel("userHash", key);
 	}
 
 }

@@ -2,6 +2,7 @@ package market.repository;
 
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Vector;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,7 +42,7 @@ public class PostRepository implements IRepository<Post> {
 	public void save(Post pPost) {
 		try {
             String postJson = objectMapper.writeValueAsString(pPost);
-            jedis.set("post:" + pPost.getId(), postJson);
+            jedis.hset("postHash","post:" + pPost.getId(), postJson);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,7 +52,7 @@ public class PostRepository implements IRepository<Post> {
 
 	@Override
 	public Post findById(int id) {
-		String postJson = jedis.get("post:" + id);
+		String postJson = jedis.hget("postHash","post:" + id);
         if (postJson != null) {
             try {
                 return objectMapper.readValue(postJson, Post.class);
@@ -65,8 +66,10 @@ public class PostRepository implements IRepository<Post> {
 	@Override
 	public Vector<Post> findAll() {
 		Vector<Post> posts = new Vector<>();
-		for (String key : jedis.keys("post:*")) {
-            String postJson = jedis.get(key);
+		Map<String, String> postHash = jedis.hgetAll("postHash");
+		
+		for (Map.Entry<String, String> entry : postHash.entrySet()) {
+            String postJson = entry.getValue();
             try {
                 Post post = objectMapper.readValue(postJson, Post.class);
                 posts.add(post);
@@ -80,7 +83,7 @@ public class PostRepository implements IRepository<Post> {
 	@Override
 	public void delete(int id) {
 		String key = "post:" + id;
-		jedis.del(key);
+		jedis.hdel("postHash",key);
 	}
 
 
