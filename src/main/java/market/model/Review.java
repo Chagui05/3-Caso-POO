@@ -1,10 +1,13 @@
 package market.model;
 
-public class Review {
+import java.util.Vector;
+
+public class Review implements IVisitable{
 	
 	private User user;
 	private int id;
 	private double rating;
+	private Vector<Double> allRatings;
 	private String comment;
 	private int likes;
 	
@@ -52,6 +55,20 @@ public class Review {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public Vector<Double> getAllRatings() {
+		return allRatings;
+	}
+
+	public void setAllRatings(Vector<Double> allRatings) {
+		this.allRatings = allRatings;
+	}
+	
+	//rating
+	@Override
+	public void accept(IVisitor visitor) {
+		rating = visitor.visit(this);
 	}
 
 

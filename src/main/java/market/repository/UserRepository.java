@@ -70,4 +70,11 @@ public class UserRepository implements IRepository<User>{
         return users;
 	}
 
+	@Override
+	public void delete(int id) {
+		String key = "user:" + id;
+		jedis.del(key);
+		
+	}
+
 }

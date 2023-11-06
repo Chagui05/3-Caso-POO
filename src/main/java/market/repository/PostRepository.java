@@ -77,5 +77,11 @@ public class PostRepository implements IRepository<Post> {
         return posts;
 	}
 
+	@Override
+	public void delete(int id) {
+		String key = "post:" + id;
+		jedis.del(key);
+	}
+
 
 }

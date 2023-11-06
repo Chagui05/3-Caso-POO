@@ -54,13 +54,24 @@ public class AgriApplication {
 		System.out.println(reviewRep.findById(1020).getComment());
 		System.out.println(userRep.findById(1234).getName());
 		System.out.println(postRep.findById(2222).getDescription());
+		
+		System.out.println("PRUEBA DISTINTA");
+		
+		SingleUser nacho = new SingleUser("nacho", 111, 5);
+		userRep.save(nacho);
+		System.out.println(userRep.findById(111).getName());
+		
+		nacho.setName("manolo");
+		userRep.save(nacho);
+		
+		System.out.println(userRep.findById(111).getName());
+		
+		System.out.println("PRUEBA DISTINTA");
+		userRep.findAll().forEach(element -> System.out.println(element.getName()));
+		
+		
 		redisDB.botonDeAutoDestrucion();
-		
-
-		
-		
-		
-		
+		userRep.findAll().forEach(element -> System.out.println(element.getName()));
 		
 		
 	}

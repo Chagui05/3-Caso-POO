@@ -44,6 +44,7 @@ public class ReviewRepository implements IRepository<Review>{
             e.printStackTrace();
         }
     }
+	
 
     @Override
     public Review findById(int id) {
@@ -71,6 +72,12 @@ public class ReviewRepository implements IRepository<Review>{
             }
         }
         return reviews;
+	}
+
+	@Override
+	public void delete(int id) {
+		String key = "review:" + id;
+		jedis.del(key);
 	}
 
 

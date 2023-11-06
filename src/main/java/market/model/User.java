@@ -1,5 +1,7 @@
 package market.model;
 
+import java.util.Vector;
+
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -8,10 +10,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 	@JsonSubTypes.Type(value = SingleUser.class, name = "singleUser"),
     @JsonSubTypes.Type(value = UnionUser.class, name = "unionUser")
 })
-public abstract class User {
+public abstract class User implements IVisitable {
 	private String name;
 	private int id;
 	private double userRating;
+	private Vector<Double> allRatings;
 	private double wallet;
 	
 	public User() {
@@ -54,6 +57,17 @@ public abstract class User {
 
 	public void setWallet(double wallet) {
 		this.wallet = wallet;
+	}
+	public Vector<Double> getAllRatings() {
+		return allRatings;
+	}
+	public void setAllRatings(Vector<Double> allRatings) {
+		this.allRatings = allRatings;
+	}
+	
+	//rating
+	public void accept(IVisitor visitor) {
+		userRating = visitor.visit(this);
 	}
 	
 

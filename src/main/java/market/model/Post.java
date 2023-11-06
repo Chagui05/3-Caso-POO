@@ -4,9 +4,10 @@ import java.awt.Image;
 import java.time.LocalDate;
 import java.util.Vector;
 
-public class Post {
+public class Post implements IVisitable {
 	
 	private double rating;
+	private Vector<Double> allRatings;
 	private int id;
 	private LocalDate date;
 	private String description;
@@ -89,6 +90,18 @@ public class Post {
 	}
 	public void setImageURL(String imageURL) {
 		this.imageURL = imageURL;
+	}
+	
+	public Vector<Double> getAllRatings() {
+		return allRatings;
+	}
+	public void setAllRatings(Vector<Double> allRatings) {
+		this.allRatings = allRatings;
+	}
+	//rating
+	@Override
+	public void accept(IVisitor visitor) {
+		rating = visitor.visit(this);
 	}
 	
 	
