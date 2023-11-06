@@ -2,6 +2,7 @@ package market.control;
 
 import market.model.AverageVisitor;
 import market.model.Post;
+import market.model.Review;
 import market.repository.PostRepository;
 
 public class PostControl extends Control<Post> {
@@ -26,6 +27,11 @@ public class PostControl extends Control<Post> {
 	public void rate(Post pPost, double pRating) {
 		pPost.getAllRatings().add(pRating);
 		pPost.accept(new AverageVisitor());
+		repository.save(pPost);	
+	}
+	
+	public void addReview(Review pReview, Post pPost) {
+		pPost.getReviews().add(pReview);
 		repository.save(pPost);	
 	}
 

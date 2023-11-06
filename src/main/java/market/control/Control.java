@@ -10,6 +10,10 @@ public abstract class Control<T> {
 		this.repository = repo;
 	}
 	
+	public void updateValues(T type) {
+		repository.save(type);
+	}
+	
 	abstract public void save(T type);
 	abstract public void delete(T type);
 	abstract public void rate(T type, double pRating);
