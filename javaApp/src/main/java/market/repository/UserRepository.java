@@ -78,5 +78,4 @@ public class UserRepository implements IRepository<User>{
 		String key = "user:" + id;
 		jedis.hdel("userHash", key);
 	}
-
 }

@@ -16,8 +16,10 @@ public class UserControl extends Control<User>  {
 
 	@Override
 	public void save(User pUser) {
-		repository.save(pUser);
-		System.out.println(pUser.getId()+" añadido");
+		if(repository.findById(pUser.getId()) == null) {
+			repository.save(pUser);
+			System.out.println(pUser.getId()+" añadido");
+		}	
 	}
 
 	@Override

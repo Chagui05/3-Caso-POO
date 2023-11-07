@@ -14,8 +14,11 @@ public class ReviewControl extends Control<Review> {
 
 	@Override
 	public void save(Review pReview) {
-		repository.save(pReview);
-		System.out.println("se guardo: "+ pReview.getComment());
+		if(repository.findById(pReview.getId()) == null)
+		{
+			repository.save(pReview);
+			System.out.println("se guardo: "+ pReview.getComment());
+		}
 	}
 
 	@Override

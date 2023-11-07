@@ -13,8 +13,11 @@ public class PostControl extends Control<Post> {
 
 	@Override
 	public void save(Post pPost) {
-		repository.save(pPost);
-		System.out.println("se guardo: "+ pPost.getDescription());
+		if(repository.findById(pPost.getId()) == null)
+		{
+			repository.save(pPost);
+			System.out.println("se guardo: "+ pPost.getDescription());
+		}
 	}
 
 	@Override
