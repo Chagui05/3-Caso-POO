@@ -1,0 +1,133 @@
+.u-section-1 .u-sheet-1 {
+  min-height: 743px;
+}
+
+.u-section-1 .u-blog-1 {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+.u-section-1 .u-repeater-1 {
+  grid-template-columns: 100%;
+  grid-gap: 10px 10px;
+  min-height: 623px;
+}
+
+.u-section-1 .u-repeater-item-1 {
+  background-image: none;
+}
+
+.u-section-1 .u-container-layout-1 {
+  padding: 30px 0 0;
+}
+
+.u-section-1 .u-image-1 {
+  height: 405px;
+  width: 797px;
+  margin: 19px auto 0;
+}
+
+.u-section-1 .u-text-1 {
+  margin: 20px -111px 0 172px;
+}
+
+.u-section-1 .u-btn-1 {
+  background-image: none;
+  padding: 0;
+}
+
+.u-section-1 .u-metadata-1 {
+  margin: 0 auto 0 172px;
+}
+
+.u-section-1 .u-custom-html-1 {
+  height: auto;
+  min-height: 30px;
+  margin: 0 -111px 0 171px;
+}
+
+.u-section-1 .u-image-2 {
+  width: 113px;
+  height: 113px;
+  background-image: url("images/57a5b6ae-a02e-4acd-91d8-d286c5e03a85.jfif");
+  background-position: 50% 50%;
+  margin: -99px auto 0 39px;
+}
+
+@media (max-width: 1199px) {
+  .u-section-1 .u-text-1 {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .u-section-1 .u-metadata-1 {
+    margin-left: 0;
+  }
+
+  .u-section-1 .u-custom-html-1 {
+    margin-right: 0;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 991px) {
+  .u-section-1 .u-image-1 {
+    height: 366px;
+    width: 720px;
+  }
+}
+
+@media (max-width: 767px) {
+  .u-section-1 .u-image-1 {
+    height: 275px;
+    width: 540px;
+  }
+}
+
+@media (max-width: 575px) {
+  .u-section-1 .u-image-1 {
+    height: 173px;
+    width: 340px;
+  }
+}*{
+    margin: 0;
+    padding: 0;
+}
+.rate {
+    float: left;
+    height: 46px;
+    padding: 0 10px;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+/* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
+.style {
+}
