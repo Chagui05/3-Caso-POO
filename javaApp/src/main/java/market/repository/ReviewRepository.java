@@ -27,7 +27,7 @@ public class ReviewRepository implements IRepository<Review>{
 	public static ReviewRepository getInstance() {
 		ReviewRepository result = instance;
 		if(result == null) {
-			synchronized(UserRepository.class) {
+			synchronized(ReviewRepository.class) {
 				result = instance;
 				if(result == null) {
 					instance = result = new ReviewRepository();

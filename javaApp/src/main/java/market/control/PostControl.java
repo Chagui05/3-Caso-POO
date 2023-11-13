@@ -26,7 +26,6 @@ public class PostControl extends Control<Post> {
 		System.out.println("se guardo: "+ pPost.getDescription());
 	}
 
-	@Override
 	public void rate(Post pPost, double pRating) {
 		pPost.getAllRatings().add(pRating);
 		pPost.accept(new AverageVisitor());

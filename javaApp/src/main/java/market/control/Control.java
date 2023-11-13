@@ -16,6 +16,6 @@ public abstract class Control<T> {
 	
 	abstract public void save(T type);
 	abstract public void delete(T type);
-	abstract public void rate(T type, double pRating);
+//	abstract public void rate(T type, double pRating);TODO: potencialmente lo podemos ocupar
 
 }

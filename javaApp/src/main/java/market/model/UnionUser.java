@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("unionUser")
 public class UnionUser extends User{
 	private Vector<SingleUser> peopleInUnion;
-	private double commision = 0.07;
 	
 	public UnionUser() {
 		
@@ -15,6 +14,7 @@ public class UnionUser extends User{
 	public UnionUser(String name, int id, float userRating, Vector<SingleUser> pPeopleInUnion) {
 		super(name, id, userRating);
 		this.peopleInUnion = pPeopleInUnion;
+		this.commision = 0.07;
 	}
 
 	public Vector<SingleUser> getPeopleInUnion() {
@@ -23,14 +23,6 @@ public class UnionUser extends User{
 
 	public void setPeopleInUnion(Vector<SingleUser> peopleInUnion) {
 		this.peopleInUnion = peopleInUnion;
-	}
-
-	public double getCommision() {
-		return commision;
-	}
-
-	public void setCommision(double commision) {
-		this.commision = commision;
 	}
 
 }

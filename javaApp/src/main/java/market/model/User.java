@@ -16,6 +16,7 @@ public abstract class User implements IVisitable {
 	private double userRating;
 	private Vector<Double> allRatings;
 	private double wallet;
+	protected double commision;
 	
 	public User() {
 		
@@ -64,10 +65,18 @@ public abstract class User implements IVisitable {
 	public void setAllRatings(Vector<Double> allRatings) {
 		this.allRatings = allRatings;
 	}
-	
 	//rating
 	public void accept(IVisitor visitor) {
 		userRating = visitor.visit(this);
+	}
+	public void addToWallet(double amount) {
+		this.wallet += amount;
+	}
+	public double getCommision() {
+		return commision;
+	}
+	public void setCommision(double commision) {
+		this.commision = commision;
 	}
 	
 

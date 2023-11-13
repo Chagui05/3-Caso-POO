@@ -29,7 +29,6 @@ public class UserControl extends Control<User>  {
 		
 	}
 
-	@Override
 	public void rate(User pUser, double pRating) {
 		pUser.getAllRatings().add(pRating);
 		pUser.accept(new AverageVisitor());

@@ -1,6 +1,5 @@
 package market.control;
 
-import java.util.Vector;
 
 import market.model.AverageVisitor;
 import market.model.Review;
@@ -27,7 +26,6 @@ public class ReviewControl extends Control<Review> {
 		System.out.println("se guardo: "+ pReview.getComment());
 	}
 
-	@Override
 	public void rate(Review pReview, double pRating) {
 		pReview.getAllRatings().add(pRating);
 		pReview.accept(new AverageVisitor());
