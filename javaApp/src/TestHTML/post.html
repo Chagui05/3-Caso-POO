@@ -111,7 +111,9 @@
                   <span class="u-meta-date u-meta-icon" id="post-date"></span>
                 </div>
                 <!-- Placeholder for post content -->
-                <div class="u-blog-control u-text u-text-2" id="post-content"></div>
+                <div class="u-blog-control u-text u-text-2" id="post-content"></div><br>
+                <button id="comprar-button" class="u-button u-button-primary u-button-1" type="button">Comprar</button>
+                </div>
               </div>
             </div>
           </div>
@@ -267,6 +269,29 @@ function addReview() {
     alert("Please fill in all required review fields.");
   }
 }
+
+// Function to handle "Comprar" button click
+document.getElementById("comprar-button").addEventListener("click", function() {
+    // Retrieve post data from the placeholders
+    const postTitle = document.getElementById("post-title").textContent;
+    const postID = 1; // You can generate a unique ID for the sale
+    const postPrice = 99.99; // Set the price of the product
+    const users = ["User1", "User2", "User3"]; // Sample users vector
+
+    // Create a sale class item
+    const saleItem = {
+      post: {
+        title: postTitle,
+        // Add other post details if needed
+      },
+      id: postID,
+      price: postPrice,
+      users: users,
+    };
+
+    // Log the sale item to the console (you can replace this with your desired logic)
+    console.log(saleItem);
+  });
 
 
     // Handle form submission
