@@ -7,14 +7,16 @@ public class Sale{
 	private int id;
 	private double price;
 	private Vector<User> usersToGiveCommission;
+	private int quantity;
 	
 	public Sale() {
 		
 	}
 	
-	public Sale(Post pPost, int pId) {
+	public Sale(Post pPost, int pId, int pQuantity) {
 		this.post = pPost;
 		this.id = pId;
+		this.quantity = pQuantity;
 		for(Review review : pPost.getReviews() ) {
 			this.usersToGiveCommission.add(review.getUser());
 		}
@@ -51,6 +53,14 @@ public class Sale{
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 	
 
