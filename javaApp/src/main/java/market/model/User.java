@@ -16,6 +16,7 @@ public abstract class User implements IVisitable {
 	private double userRating;
 	private Vector<Double> allRatings;
 	private double wallet;
+	private Vector<Post> posts;
 	protected double commision;
 	
 	public User() {
@@ -78,6 +79,12 @@ public abstract class User implements IVisitable {
 	public void setCommision(double commision) {
 		this.commision = commision;
 	}
-	
+
+	public Vector<Post> getPosts() {
+		return posts;
+	}
+	public void setPosts(Vector<Post> posts) {
+		this.posts = posts;
+	}
 
 }

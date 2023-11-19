@@ -156,119 +156,150 @@
           <p class="u-align-left u-custom-font u-font-montserrat u-small-text u-text u-text-variant u-text-2"> Somos una plataforma en línea dedicada a la venta de elementos y suministros relacionados con la agricultura, al mismo tiempo que ofrece oportunidades de empleo para personas que desean trabajar en áreas vinculadas a la agricultura sin necesidad de laborar en el campo. En esta página, los usuarios pueden encontrar una amplia gama de productos agrícolas, desde herramientas y maquinaria especializada hasta semillas y fertilizantes de alta calidad.</p>
         </div></footer>
       <section class="u-backlink u-clearfix u-grey-80">
-        <script>
-          // Retrieve post data from query parameters
-          const queryParams = new URLSearchParams(window.location.search);
-          const postID = queryParams.get("postID");
-      
-          // Sample data for demonstration
-          const postData = {
-              image: "test.jfif",
-              user: "Usuario",
-              title: "Post de Prueba",
+    <script>
+      // Retrieve post data from query parameters
+      const queryParams = new URLSearchParams(window.location.search);
+      const postID = queryParams.get("postID");
+  
+      // cambiar por datos recibidos del post.
+      const postData = {
+          image: "test.jfif",
+          user: "Usuario",
+          title: "Post de Prueba",
+          date: "Oct 31, 2023",
+          content: "Descripcion del producto",
+      };
+  
+      // Update the placeholders with the actual post data
+      document.getElementById("post-image").src = postData.image;
+      document.getElementById("post-user").textContent = postData.user;
+      document.getElementById("post-title").textContent = postData.title;
+      document.getElementById("post-date").textContent = postData.date;
+      document.getElementById("post-content").textContent = postData.content;
+
+              // debría agarrarse del objeto post
+              const reviewsData = [
+          {
+              author: "User 1",
               date: "Oct 31, 2023",
-              content: "Descripcion del producto",
+              content: "This is the first review for the post.",
+              rating:3
+          },
+          {
+              author: "User 2",
+              date: "Nov 1, 2023",
+              content: "Great tractor! I love it.",
+              rating:5
+          },
+          {
+              author: "User 3",
+              date: "Nov 2, 2023",
+              content: "Could be better.",
+              rating:2
+          },
+      ];
+
+      // Function to populate reviews
+      function populateReviews() {
+          const reviewsList = document.getElementById("reviews-list");
+
+          reviewsData.forEach((review) => {
+              const li = document.createElement("li");
+              li.innerHTML = `
+                  <strong>${review.author}</strong> - ${review.date} <strong>Rating: </strong>${review.rating}/5<br> 
+                  ${review.content}
+              `;
+              reviewsList.appendChild(li);
+          });
+      }
+
+      // Call the function to populate reviews
+      populateReviews();
+
+      // Handle the "Organización o grupo" checkbox change event
+      const groupCheckbox = document.getElementById("group");
+      const groupFields = document.getElementById("group-fields");
+      const peopleInvolved = document.getElementById("people-involved");
+      peopleInvolved.value=1
+
+      groupCheckbox.addEventListener("change", function() {
+        groupFields.style.display = groupCheckbox.checked ? "block" : "none";
+        peopleInvolved.value=1
+      });
+
+      // Function to add a review, including the number of people involved (if applicable)
+      function addReview() {
+        const author = document.getElementById("author").value;
+        const rating = document.getElementById("rating").value;
+        const content = document.getElementById("content").value;
+        const isGroup = document.getElementById("group").checked;
+        const peopleInvolved = isGroup ? document.getElementById("people-involved").value : null;
+
+        // Check if the input values are not empty
+        if (author && rating && content) {
+          // Create a new review object
+          const newReview = {
+            author,
+            date: new Date().toLocaleDateString(),
+            content,
+            rating,
+            isGroup,
+            peopleInvolved,
           };
-      
-          // Update the placeholders with the actual post data
-          document.getElementById("post-image").src = postData.image;
-          document.getElementById("post-user").textContent = postData.user;
-          document.getElementById("post-title").textContent = postData.title;
-          document.getElementById("post-date").textContent = postData.date;
-          document.getElementById("post-content").textContent = postData.content;
+          
+          // Add the new review to the reviewsData array
+          reviewsData.push(newReview);
 
-                  // Sample data for reviews (replace with actual data from your database)
-                  const reviewsData = [
-              {
-                  author: "User 1",
-                  date: "Oct 31, 2023",
-                  content: "This is the first review for the post.",
-                  rating:3
-              },
-              {
-                  author: "User 2",
-                  date: "Nov 1, 2023",
-                  content: "Great tractor! I love it.",
-                  rating:5
-              },
-              {
-                  author: "User 3",
-                  date: "Nov 2, 2023",
-                  content: "Could be better.",
-                  rating:2
-              },
-          ];
+          //fetch del new review
 
-          // Function to populate reviews
-          function populateReviews() {
-              const reviewsList = document.getElementById("reviews-list");
+          // Clear the form fields
+          document.getElementById("review-form").reset();
 
-              reviewsData.forEach((review) => {
-                  const li = document.createElement("li");
-                  li.innerHTML = `
-                      <strong>${review.author}</strong> - ${review.date} <strong>Rating: </strong>${review.rating}/5<br> 
-                      ${review.content}
-                  `;
-                  reviewsList.appendChild(li);
-              });
-          }
+          // Reset the "Organización o grupo" checkbox to unchecked
+          document.getElementById("group").checked = false;
 
-          // Call the function to populate reviews
+          // Hide the group fields
+          document.getElementById("group-fields").style.display = "none";
+
+          // Clear the reviews list before repopulating
+          const reviewsList = document.getElementById("reviews-list");
+          reviewsList.innerHTML = '';
+
+          // Populate the reviews list with the updated data
           populateReviews();
 
-    // Handle the "Organización o grupo" checkbox change event
-    const groupCheckbox = document.getElementById("group");
-    const groupFields = document.getElementById("group-fields");
-    const peopleInvolved = document.getElementById("people-involved");
-    peopleInvolved.value=1
+          //======================================fetch================================================ no tiene permiso para hacer POST ???? deberían salir de la lista de reviews y guardarse ahí mismo.
+          const fetchReview = {
+            user: author,
+            id: 0,
+            rating:1.0,
+            allRatings: [0.0,0.0],
+            comment: "content",
+            likes: 0,
+          };
 
-    groupCheckbox.addEventListener("change", function() {
-      groupFields.style.display = groupCheckbox.checked ? "block" : "none";
-      peopleInvolved.value=1
-    });
-
-// Function to add a review, including the number of people involved (if applicable)
-function addReview() {
-  const author = document.getElementById("author").value;
-  const rating = document.getElementById("rating").value;
-  const content = document.getElementById("content").value;
-  const isGroup = document.getElementById("group").checked;
-  const peopleInvolved = isGroup ? document.getElementById("people-involved").value : null;
-
-  // Check if the input values are not empty
-  if (author && rating && content) {
-    // Create a new review object
-    const newReview = {
-      author,
-      date: new Date().toLocaleDateString(),
-      content,
-      rating,
-      isGroup,
-      peopleInvolved,
-    };
-
-    // Add the new review to the reviewsData array
-    reviewsData.push(newReview);
-
-    // Clear the form fields
-    document.getElementById("review-form").reset();
-
-    // Reset the "Organización o grupo" checkbox to unchecked
-    document.getElementById("group").checked = false;
-
-    // Hide the group fields
-    document.getElementById("group-fields").style.display = "none";
-
-    // Clear the reviews list before repopulating
-    const reviewsList = document.getElementById("reviews-list");
-    reviewsList.innerHTML = '';
-
-    // Populate the reviews list with the updated data
-    populateReviews();
-  } else {
-    alert("Please fill in all required review fields.");
-  }
-}
+          fetch("/reviews", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(fetchReview),
+          })
+          .then(response => response.json())
+          .then(createdReview => {
+            // La respuesta 'createdReview' contendrá el objeto Review creado por el servidor
+            console.log('Review creada:', createdReview);
+            // Aquí puedes realizar cualquier operación con la review creada
+          })
+          .catch(error => {
+            console.error('Error al crear la review:', error);
+          });
+          //======================================fetch================================================
+        } else {
+          alert("Please fill in all required review fields.");
+        }
+        
+      }
 
 // Function to handle "Comprar" button click
 document.getElementById("comprar-button").addEventListener("click", function() {
@@ -294,24 +325,25 @@ document.getElementById("comprar-button").addEventListener("click", function() {
   });
 
 
-    // Handle form submission
-    document.getElementById("review-form").addEventListener("submit", function(event) {
-      event.preventDefault();
-      addReview();
-    });
-
-      const numberInput = document.getElementById("people-involved");
-      
-      numberInput.addEventListener("keydown", function(event) {
-          if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-              // Allow arrow up and down keypresses
-              return true;
-          } else {
-              // Prevent all other keyboard input
-              event.preventDefault();
-              return false;
-          }
+      // Handle form submission
+      document.getElementById("review-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        
+        addReview();
       });
-      </script>
-      </body>
-      </html>
+
+        const numberInput = document.getElementById("people-involved");
+        
+        numberInput.addEventListener("keydown", function(event) {
+            if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+                // Allow arrow up and down keypresses
+                return true;
+            } else {
+                // Prevent all other keyboard input
+                event.preventDefault();
+                return false;
+            }
+        });
+    </script>
+  </body>
+</html>

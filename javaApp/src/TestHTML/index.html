@@ -63,7 +63,7 @@
 </g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
             </a>
           </div>
-          
+
           <div class="u-custom-menu u-nav-container">
             <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="index.html" style="padding: 10px 20px;">Inicio</a>
 </li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="index.html" style="padding: 10px 20px;">Sube un producto</a>
@@ -97,23 +97,24 @@
       </div>
     </header>
       <section class="u-clearfix" id="post-section">
-        <div class="post-container center-post center" style="margin: 0 auto" " >
+        <div class="post-container center-post center" style="margin: 0 auto" >
           <ul id="post-list" class="u-blog u-expanded-width u-blog-1">
             <!-- Posts will be added dynamically here -->
           </ul>
         </div>
       </section>
-      
-    
-    
-    
-    <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="AboutUs"><div class="u-clearfix u-sheet u-sheet-1">
-        <h4 id= "AboutUs"class="u-align-left u-custom-font u-font-montserrat u-text u-text-1">Acerca de nosotros</h4>
+
+
+
+
+    <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" class="AboutUs"><div class="u-clearfix u-sheet u-sheet-1">
+        <h4 class= "AboutUs"class="u-align-left u-custom-font u-font-montserrat u-text u-text-1">Acerca de nosotros</h4>
         <p class="u-align-left u-custom-font u-font-montserrat u-small-text u-text u-text-variant u-text-2"> Somos una plataforma en línea dedicada a la venta de elementos y suministros relacionados con la agricultura, al mismo tiempo que ofrece oportunidades de empleo para personas que desean trabajar en áreas vinculadas a la agricultura sin necesidad de laborar en el campo. En esta página, los usuarios pueden encontrar una amplia gama de productos agrícolas, desde herramientas y maquinaria especializada hasta semillas y fertilizantes de alta calidad.</p>
       </div></footer>
     <section class="u-backlink u-clearfix u-grey-80">
       <script>
         class BlogPost {
+          
           constructor(image, user, date, title, description, price, purchaseLocation, commissionPercentage) {
             this.image = image;
             this.user = user;
@@ -125,7 +126,21 @@
             this.commissionPercentage = commissionPercentage;
             this.reviews = [];
           }
-      
+
+          /* reemplazar constructor por este.
+          constructor(rating, allRatings, id, date, description, price, product, imageURL, reviews) {
+            this.rating = rating;
+            this.allRatings = allRatings;
+            this.id = id;
+            this.date = date;
+            this.description = description;
+            this.price = price;
+            this.product = product;
+            this.imageURL = imageURL;
+            this.reviews = reviews;
+          }
+          */
+
           addReview(review) {
             this.reviews.push(review);
           }
@@ -148,15 +163,48 @@
           }
         }
       
-        const blogPosts = [];
-      
+        let blogPosts = [];
+
+        //==================================================================================fetch
+        function createPosts(jsonData) {
+          const posts = jsonData.map(postData => {
+            return new Post(
+              postData.rating,
+              postData.allRatings,
+              postData.id,
+              new Date(postData.date),
+              postData.description,
+              postData.price,
+              postData.product,
+              postData.imageURL,
+              postData.reviews
+            );
+          });
+          
+          return posts;
+        }
+
+        // Suponiendo que `data` es el JSON obtenido (en este caso, representa la lista de objetos Post)
+        fetch("/posts")
+        .then(response => response.json())
+        .then(data => {
+          const redisPosts = createPosts(data);
+          console.log(redisPosts);
+          blogPosts = redisPosts; // Asignar los datos a blogPosts dentro del bloque then
+          // Puedes trabajar con los objetos `Post` como desees aquí dentro
+        })
+        .catch(error => {
+          console.error('Error al obtener los datos JSON:', error);
+        });
+        //==================================================================================fetch
+     
         // Create objects BlogPost and add them to the array
+        //const post = new BlogPost(2.5, [], 2222,  new Date(), 'Descripción del Producto 1', 29.99, {}, 'test.jfif', [{},{}]); así quedaría el post construído
         const post1 = new BlogPost('test.jfif', 'Usuario1', new Date(), "Post de prueba", 'Descripción del Producto 1', 29.99, 'TiendaA', 3);
         const post2 = new BlogPost('test.jfif', 'Usuario2', new Date(), "Post de prueba", 'Descripción del Producto 2', 39.99, 'TiendaB', 4);
         const post3 = new BlogPost('test.jfif', 'Usuario3', new Date(), "Post de prueba", 'Descripción del Producto 3', 49.99, 'TiendaC', 5);
-      
-        blogPosts.push(post1, post2, post3);
-      
+        blogPosts.push(post1,post2,post3);
+
         // Modify the displayPosts function to clear the existing list and add all posts
         function displayPosts() {
           const postList = document.getElementById('post-list');
@@ -264,7 +312,6 @@ function promptForNumber(message) {
   return parseInt(userInput, 10); // Parse the valid number as an integer
 }
 
-      </script>
-      
-      </body>
-      </html>
+    </script>
+  </body>
+</html>
