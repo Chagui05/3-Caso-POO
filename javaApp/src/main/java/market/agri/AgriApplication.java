@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.awt.Image;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 import org.springframework.boot.CommandLineRunner;
@@ -45,11 +46,24 @@ public class AgriApplication {
 		Vector<Review> revs = new Vector<>();
 		revs.add(rev);
 		
-		Post post = new Post(5, LocalDate.now(), "el mejor cerrucho", cerrucho, "unUrl.com",revs, 2222);
+		Post post = new Post(1, LocalDate.now(), "el peor serrucho", cerrucho, "unUrl.com",revs, 2221);
+		Post post1 = new Post(2, LocalDate.now(), "el serrucho", cerrucho, "unUrl.com",revs, 2222);
+		Post post2 = new Post(3, LocalDate.now(), "el serrucho más normal", cerrucho, "unUrl.com",revs, 2223);
+		Post post3 = new Post(4, LocalDate.now(), "el casi mejor serrucho", cerrucho, "unUrl.com",revs, 2224);
+		Post post4 = new Post(5, LocalDate.now(), "el mejor serrucho", cerrucho, "unUrl.com",revs, 2225);
 		
+		postRep.save(post);
+		postRep.save(post1);
+		postRep.save(post2);
+		postRep.save(post3);
+		postRep.save(post4);
+
 		reviewRep.save(rev);
 		userRep.save(santi);
-		postRep.save(post);
+		
+		List<Post> posts = postRep.findAll();
+		System.out.println(posts.toString());
+		
 		
 		System.out.println(reviewRep.findById(1020).getComment());
 		System.out.println(userRep.findById(1234).getName());
@@ -69,7 +83,7 @@ public class AgriApplication {
 		System.out.println("PRUEBA DISTINTA");
 		userRep.findAll().forEach(element -> System.out.println(element.getName()));
 		
-		redisDB.botonDeAutoDestrucion();
+		
 		
 		
 	}
@@ -82,9 +96,11 @@ public class AgriApplication {
 
 			String[] beanNames = ctx.getBeanDefinitionNames();
 			Arrays.sort(beanNames);
+			/*
 			for (String beanName : beanNames) {
 				System.out.println(beanName);
 			}
+			 */
 
 		};
 	}
