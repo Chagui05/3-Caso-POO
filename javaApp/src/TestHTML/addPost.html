@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Post</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap'>
+    <link rel="stylesheet" href="./addPost.css">
+</head>
+<body>
+    <form onsubmit="createPost()">
+        <a href="index.html" class="back-arrow">&#8592;</a>
+        <div class="productName product-name">
+            <label for="productName">Product Name</label>
+            <div class="sec-2">
+                <ion-icon name="mail-outline"></ion-icon>
+                <input type="text" name="productName" id="productName" placeholder="Product Name" required="true">
+            </div>
+        <div class="price">
+            <label for="price">Price</label>
+            <div class="sec-2">
+                <ion-icon name="mail-outline"></ion-icon>
+                <input type="text" name="price" id="price" placeholder="Price" required="true">
+            </div>
+        </div>
+        <div class="description">
+            <label for="description">Description</label>
+            <div class="sec-2">
+                <ion-icon name="mail-outline"></ion-icon>
+                <input type="text" name="description" id="description" placeholder="Description" required="true">
+            </div>
+        </div>
+        <div class="image">
+            <label for="image">Image URL</label>
+            <div class="sec-2">
+                <ion-icon name="mail-outline"></ion-icon>
+                <input type="text" name="image" id="image" placeholder="Image URL" required="true">
+            </div>
+        </div>
+        <div class="submit">
+            <div class="sec-2">
+                <ion-icon name="mail-outline"></ion-icon>
+                <input type="submit" value="Submit">
+            </div>
+        </div>
+    </form>
+    <script>
+        class BlogPost {
+            constructor(id, comments, userId, date, description, price, location, image, tags) {
+                this.id = id;
+                this.comments = comments;
+                this.userId = userId;
+                this.date = date;
+                this.description = description;
+                this.price = price;
+                this.location = location;
+                this.image = image;
+                this.tags = tags;
+            }
+        }
+        const blogPosts = []; // Assuming you have this array defined somewhere in your code
+    
+        function createPost() {
+            event.preventDefault();
+    
+            const productName = document.getElementsByName('productName')[0].value;
+            const priceInput = document.getElementsByName('price')[0];
+            const description = document.getElementsByName('description')[0].value;
+            const imageInput = document.getElementsByName('image')[0];
+    
+            // Validate price
+            const price = parseFloat(priceInput.value);
+            if (isNaN(price)) {
+                alert('Please enter a valid numeric value for the price.');
+                return;
+            }
+    
+            // Validate image URL
+            const imageUrl = imageInput.value;
+            if (!isValidImageUrl(imageUrl)) {
+                alert('Please enter a valid image URL.');
+                return;
+            }
+    
+            const post = new BlogPost(0, [], 2222, new Date(), description, price, {}, imageUrl, [{} , {}]);
+            blogPosts.push(post);
+    
+            console.log('New blog post created:', post);
+        }
+    
+        // Function to validate image URL
+        function isValidImageUrl(url) {
+            // You can implement a more sophisticated validation logic if needed
+            // For a simple check, you can verify if the URL starts with 'http://' or 'https://'
+            return url.startsWith('http://') || url.startsWith('https://');
+        }
+    </script>
+</body>
+</html>
