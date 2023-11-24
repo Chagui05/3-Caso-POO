@@ -79,13 +79,13 @@ input[type="submit"]:hover {
 }
 
 .back-arrow {
+    margin-left: 20px;
     position: absolute;
-    left:800px;
     text-decoration: none;
     font-size: 30px;
     color: #333333;
     font-weight: 600;
-}
+  }
 
 button {
     cursor: pointer;

@@ -25,7 +25,8 @@
     gap: 2em;
   }
   .screen-1 .logo {
-    margin-top: -3em;
+    margin-top: -100px;
+    margin-bottom: -100px;
   }
 
   .screen-1 .organization {
@@ -165,8 +166,8 @@
   
   .back-arrow {
     position: absolute;
-    top: 150px;
-    left:800px;
+    margin-top: -650px;
+    margin-left: -290px;
     text-decoration: none;
     font-size: 30px;
     color: #333333;
