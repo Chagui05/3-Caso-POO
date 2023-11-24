@@ -32,6 +32,12 @@
         <polygon style="stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke" points="-50,-50 -50,50 50,50 50,-50 "></polygon>
         </g>
       </svg>
+      <!-- New organization checkbox -->
+      <div class="organization">
+        <input type="checkbox" id="organization" name="organization" value="
+        organization">
+        <label for="organization">Register an organization</label>
+      </div>
       <div class="email">
         <label for="email">Email Address</label>
         <div class="sec-2">
@@ -81,11 +87,12 @@
     return emailRegex.test(email);
   }
 
-  function submitForm() {
+    function submitForm() {
     // Get input values
     var email = document.getElementById("emailInput").value;
     var password = document.getElementById("passwordInput").value;
     var confirmPassword = document.getElementById("confirmPasswordInput").value;
+    var isOrganization = document.getElementById("organization").checked;
 
     const emailExists = isValidEmail(email);
     const passwordsMatch = password === confirmPassword;
@@ -95,6 +102,7 @@
       // Log values to the console
       console.log("Email:", email);
       console.log("Encoded Password:", encodedPassword);
+      console.log("Is Organization Account:", isOrganization);
 
       if (passwordsMatch) {
         console.log("Passwords match:", passwordsMatch);
