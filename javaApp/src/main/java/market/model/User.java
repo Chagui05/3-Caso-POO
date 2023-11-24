@@ -88,7 +88,7 @@ public abstract class User implements IVisitable {
 	public void setPosts(Vector<Post> posts) {
 		this.posts = posts;
 	}
-	public bool getIsOrg() {
+	public boolean getIsOrg() {
 		return isOrg;
 	}
 
