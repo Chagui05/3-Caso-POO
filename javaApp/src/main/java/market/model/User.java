@@ -28,7 +28,7 @@ public abstract class User implements IVisitable {
 		this.id = id;
 		this.userRating = userRating;
 		this.wallet = 0;
-		this.isOrg = isOrg
+		this.isOrg = isOrg;
 	}
 
 	public String getName() {
