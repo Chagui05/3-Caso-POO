@@ -1,34 +1,40 @@
 package market.agri;
 
-import java.time.LocalDate;
-import java.util.Vector;
-
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import market.model.Condition;
-import market.model.Post;
-import market.model.Review;
-import market.model.SingleUser;
-import market.model.Tool;
 import market.model.User;
+import market.repository.UserRepository;
 
+@RestController
 public class UserApi {
-    @GetMapping("/user")
-	public User displayUser() {//no puede sacar los datos de redis
+	UserRepository userRep = UserRepository.getInstance();
 
-		SingleUser santi = new SingleUser("Santi", 1234, 4);
-		Review rev = new Review(santi, 5, "Me gusto mucho este producto", 1020);
-		Tool cerrucho = new Tool("serrucho", 300, Condition.GOOD);	
-		Vector<Review> revs = new Vector<>();
-        Vector<Post> posts = new Vector<>();
-		revs.add(rev);
-		Post post = new Post(1, LocalDate.now(), "el peor serrucho", cerrucho, "unUrl.com",revs, 2221);
-		Post post4 = new Post(5, LocalDate.now(), "el mejor serrucho", cerrucho, "unUrl.com",revs, 2225);
-        posts.add(post);
-        posts.add(post4);
+    @GetMapping("/user/{userID}")
+    public User showcaseUser(@PathVariable("userID") int userID) {
+		User currentUser = userRep.findById(userID);
+        return currentUser;
+    }
 
-        santi.setPosts(posts);
-		//============================================================== abajo lo único que va
-		return santi;
-	}
+	@PostMapping("/register")
+    public User registerUser(@RequestBody User user) {
+		userRep.save(user);
+        return user;
+    }
+    /* prueba para postman
+    {
+    "type": "singleUser",
+    "name": "Marco",
+    "id": 4444,
+    "userRating": 4.0,
+    "allRatings": null,
+    "wallet": 0.0,
+    "posts": null,
+    "commision": 0.04
+}
+
+     */
 }

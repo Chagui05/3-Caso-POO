@@ -1,17 +1,10 @@
 package market.agri;
 
 import market.model.Review;
-import market.model.SingleUser;
-import market.model.Tool;
-import market.model.Condition;
 import market.model.Post;
 import market.repository.PostRepository;
 import market.repository.ReviewRepository;
-
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Vector;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +25,6 @@ public class ReviewAPI {
         List<Review> postReviews = currentPost.getReviews();
         return postReviews;
     }
-
     @PostMapping("/reviews")
     public Review createReview(@RequestBody Review review) {
         reviewRep.save(review);     

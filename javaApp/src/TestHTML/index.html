@@ -158,36 +158,26 @@
         let blogPosts = [];
 
         //==================================================================================fetch
-        function createPosts(jsonData) {
-          const posts = jsonData.map(postData => {
-            return new Post(
-              postData.rating,
-              postData.allRatings,
-              postData.id,
-              new Date(postData.date),
-              postData.description,
-              postData.price,
-              postData.product,
-              postData.imageURL,
-              postData.reviews
-            );
+        // Realizar una solicitud GET usando fetch
+        fetch('http://localhost:8080/posts')
+          .then(response => {
+            // Verificar si la solicitud fue exitosa (código de estado 200)
+            if (!response.ok) {
+              throw new Error('La solicitud no fue exitosa');
+            }
+            // Parsear la respuesta a JSON
+            return response.json();
+          })
+          .then(data => {
+            // Trabajar con el objeto JSON recibido
+            console.log('Objeto JSON recibido:', data);
+            blogPosts = data;
+          })
+          .catch(error => {
+            // Manejar errores de la solicitud
+            console.error('Se produjo un error:', error);
           });
-          
-          return posts;
-        }
 
-        // Suponiendo que `data` es el JSON obtenido (en este caso, representa la lista de objetos Post)
-        fetch("/posts")
-        .then(response => response.json())
-        .then(data => {
-          const redisPosts = createPosts(data);
-          console.log(redisPosts);
-          blogPosts = redisPosts; // Asignar los datos a blogPosts dentro del bloque then
-          // Puedes trabajar con los objetos `Post` como desees aquí dentro
-        })
-        .catch(error => {
-          console.error('Error al obtener los datos JSON:', error);
-        });
         //==================================================================================fetch
      
         // Create objects BlogPost and add them to the array
