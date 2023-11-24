@@ -17,18 +17,16 @@ public abstract class User implements IVisitable {
 	private Vector<Double> allRatings;
 	private double wallet;
 	private Vector<Post> posts;
-	private boolean isOrg;
 	protected double commision;
 	
 	public User() {
 		
 	}
-	public User(String name, int id, double userRating, boolean isOrg) {
+	public User(String name, int id, double userRating) {
 		this.name = name;
 		this.id = id;
 		this.userRating = userRating;
 		this.wallet = 0;
-		this.isOrg = isOrg;
 	}
 
 	public String getName() {
@@ -87,9 +85,6 @@ public abstract class User implements IVisitable {
 	}
 	public void setPosts(Vector<Post> posts) {
 		this.posts = posts;
-	}
-	public boolean getIsOrg() {
-		return isOrg;
 	}
 
 }
