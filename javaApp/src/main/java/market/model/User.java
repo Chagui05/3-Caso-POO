@@ -17,13 +17,13 @@ public abstract class User implements IVisitable {
 	private Vector<Double> allRatings;
 	private double wallet;
 	private Vector<Post> posts;
-	private bool isOrg;
+	private Bool isOrg;
 	protected double commision;
 	
 	public User() {
 		
 	}
-	public User(String name, int id, double userRating, bool isOrg) {
+	public User(String name, int id, double userRating, Bool isOrg) {
 		this.name = name;
 		this.id = id;
 		this.userRating = userRating;
