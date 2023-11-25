@@ -46,11 +46,11 @@ public class AgriApplication {
 		Vector<Review> revs = new Vector<>();
 		revs.add(rev);
 		
-		Post post = new Post(1, LocalDate.now(), "el peor serrucho", cerrucho, "unUrl.com",revs, 2221);
-		Post post1 = new Post(2, LocalDate.now(), "el serrucho", cerrucho, "unUrl.com",revs, 2222);
-		Post post2 = new Post(3, LocalDate.now(), "el serrucho más normal", cerrucho, "unUrl.com",revs, 2223);
-		Post post3 = new Post(4, LocalDate.now(), "el casi mejor serrucho", cerrucho, "unUrl.com",revs, 2224);
-		Post post4 = new Post(5, LocalDate.now(), "el mejor serrucho", cerrucho, "unUrl.com",revs, 2225);
+		Post post = new Post(1, LocalDate.now(), "el peor serrucho", cerrucho, "unUrl.com",revs, 2222, santi);
+		Post post1 = new Post(2, LocalDate.now(), "el serrucho", cerrucho, "unUrl.com",revs, 2222, santi);
+		Post post2 = new Post(3, LocalDate.now(), "el serrucho más normal", cerrucho, "unUrl.com",revs, 2223, santi);
+		Post post3 = new Post(4, LocalDate.now(), "el casi mejor serrucho", cerrucho, "unUrl.com",revs, 2224, santi);
+		Post post4 = new Post(5, LocalDate.now(), "el mejor serrucho", cerrucho, "unUrl.com",revs, 2225, santi);
 		
 		postRep.save(post);
 		postRep.save(post1);

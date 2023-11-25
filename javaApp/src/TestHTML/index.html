@@ -99,7 +99,7 @@
       </div></footer>
     <section class="u-backlink u-clearfix u-grey-80">
       <script>    
-      const isLoggedIn = true/* Set this dynamically based on your authentication logic */;
+      const isLoggedIn = false/* Set this dynamically based on your authentication logic */;
 
       function navigateToPerfil() {
         // Assuming you have a variable isLoggedIn indicating the user's login status
@@ -120,7 +120,7 @@
         class BlogPost {
           
           // reemplazar constructor por este.
-          constructor(rating, allRatings, id, date, description, price, product, imageURL, reviews) {
+          constructor(rating, allRatings, id, date, description, price, product, imageURL, reviews, user) {
             this.rating = rating;
             this.allRatings = allRatings;
             this.id = id;
@@ -130,6 +130,7 @@
             this.product = product;//ingresar
             this.imageURL = imageURL;//ingresar
             this.reviews = reviews;
+            this.user = user;
           }
           
 
@@ -181,7 +182,7 @@
         //==================================================================================fetch
      
         // Create objects BlogPost and add them to the array
-        const post = new BlogPost(2.5, [], 2222,  new Date(), 'Descripción del Producto 1', 29.99, {}, 'test.jfif', [{},{}]);
+        const post = new BlogPost(2.5, [], 2222,  new Date(), 'Descripción del Producto 1', 29.99, {}, 'test.jfif', [{},{}], "guillen");
         blogPosts.push(post);
 
         // Modify the displayPosts function to clear the existing list and add all posts
@@ -196,28 +197,19 @@
 
             // Create a link for each post with a unique identifier in the URL
             const postLink = document.createElement('a');
-            postLink.href = `post.html?postID=${generateUniqueID(post)}`;
-
             postLink.innerHTML = `
-              <div class="u-blog-post u-container-style u-custom-color-1 u-radius-10 u-repeater-item u-shape-round">
-                <div class="u-container-layout u-similar-container u-container-layout-1">
-                  <a class="u-post-header-link" href="${post.product}.html">
-                  </a>
-                  <img alt="" class="custom-expanded u-blog-control u-image u-image-round u-radius-10 u-image-1" src="${post.imageURL}">
-
-                  <h4 class="u-blog-control u-text u-text-1">${post.product}</h4>
-                  <div class="u-blog-control u-metadata u-metadata-1">
-                    <span class="u-meta-author u-meta-icon">${post.user}</span>
-                  </div>
-                  <div class="style u-clearfix u-custom-html u-custom-html-1">
-                    <meta charset="UTF-8">
-                    <link rel="stylesheet" type="text/css" href="style.css">
-                    <title></title>
-                  </div>
-                  <div class="u-image u-image-circle u-image-2" alt="" data-image-width="540" data-image-height="532"></div>
-                </div>
-              </div>
-            `;
+            <div class="u-blog-post u-container-style u-custom-color-1 u-radius-10 u-repeater-item u-shape-round">
+        <div class="u-container-layout u-similar-container u-container-layout-1">
+          <a class="u-post-header-link" href="${post.product.name}.html"></a>
+          <img alt="" class="custom-expanded u-blog-control u-image u-image-round u-radius-10 u-image-1" src="${post.imageURL}">
+          <h4 class="u-blog-control u-text u-text-1">${post.product.name}</h4>
+          <div class="u-blog-control u-metadata u-metadata-1">
+            <span class="u-meta-author u-meta-icon">${post.user.name}</span>
+          </div>
+          <!-- Other HTML content as needed -->
+        </div>
+      </div>
+    `;
 
           listItem.appendChild(postLink);
           postList.appendChild(listItem);
@@ -227,7 +219,7 @@
           // Generate a unique identifier for each post, e.g., based on the post title
           function generateUniqueID(post) {
           // Customize this function to generate a unique identifier based on your post data.
-            return post.title.replace(/ /g, '-'); // This example replaces spaces with dashes.
+          return post.title.replace(/ /g, '-'); // This example replaces spaces with dashes.
           }
     
         // Add an event listener to execute the function once the page is loaded
