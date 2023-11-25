@@ -120,7 +120,7 @@
         class BlogPost {
           
           // reemplazar constructor por este.
-          constructor(rating, allRatings, id, date, description, price, product, imageURL, reviews) {
+          constructor(rating, allRatings, id, date, description, price, product, imageURL, reviews, user) {
             this.rating = rating;
             this.allRatings = allRatings;
             this.id = id;
@@ -130,6 +130,7 @@
             this.product = product;//ingresar
             this.imageURL = imageURL;//ingresar
             this.reviews = reviews;
+            this.user = user
           }
           
 
@@ -154,10 +155,27 @@
             this.comment = comment;
           }
         }
+
+        class Product{
+          constructor(name, price){
+            this.name = name;
+            this.price = price;
+          }
+        }
+
+        class User {
+          constructor(name, id, userRating){
+          this.name = name;
+          this.id = id;
+          this.userRating = userRating;
+          this.wallet = 0;
+          }
+        }
+
       
         let blogPosts = [];
 
-        //==================================================================================fetch
+        //<!--!==================================================================================fetch
         // Realizar una solicitud GET usando fetch
         fetch('http://localhost:8080/posts')
           .then(response => {
@@ -181,7 +199,9 @@
         //==================================================================================fetch
      
         // Create objects BlogPost and add them to the array
-        const post = new BlogPost(2.5, [], 2222,  new Date(), 'Descripción del Producto 1', 29.99, {}, 'test.jfif', [{},{}]);
+        const product = new Product("Hacha", 12.99)
+        const user = new User("Juan", 1, 4)
+        const post = new BlogPost(2.5, [], 2222,  new Date(), 'Descripción del Producto 1', 29.99, product, 'https://drive.google.com/uc?export=download&id=1W8k2hrvOkLKjJ1nGe-d4MHvDJb7VLWIV', [{},{}], user);
         blogPosts.push(post);
 
         // Modify the displayPosts function to clear the existing list and add all posts
@@ -191,23 +211,25 @@
           postList.innerHTML = '';
 
           blogPosts.forEach((post) => {
+            console.log('asdasd')
+            console.log(post.user)
             const listItem = document.createElement('li');
             listItem.classList.add('u-repeater-item'); // Add the repeater item class
 
             // Create a link for each post with a unique identifier in the URL
             const postLink = document.createElement('a');
+            //<!--! 
             postLink.href = `post.html?postID=${generateUniqueID(post)}`;
-
             postLink.innerHTML = `
               <div class="u-blog-post u-container-style u-custom-color-1 u-radius-10 u-repeater-item u-shape-round">
                 <div class="u-container-layout u-similar-container u-container-layout-1">
-                  <a class="u-post-header-link" href="${post.product}.html">
+                  <a class="u-post-header-link" href="${post.product.name}.html">
                   </a>
                   <img alt="" class="custom-expanded u-blog-control u-image u-image-round u-radius-10 u-image-1" src="${post.imageURL}">
 
-                  <h4 class="u-blog-control u-text u-text-1">${post.product}</h4>
+                  <h4 class="u-blog-control u-text u-text-1">${post.product.name}</h4>
                   <div class="u-blog-control u-metadata u-metadata-1">
-                    <span class="u-meta-author u-meta-icon">${post.user}</span>
+                    <span class="u-meta-author u-meta-icon">${post.user.name}</span>
                   </div>
                   <div class="style u-clearfix u-custom-html u-custom-html-1">
                     <meta charset="UTF-8">
@@ -224,7 +246,7 @@
           });
           }
 
-          // Generate a unique identifier for each post, e.g., based on the post title
+          //<!--! // Generate a unique identifier for each post, e.g., based on the post title
           function generateUniqueID(post) {
           // Customize this function to generate a unique identifier based on your post data.
             return post.title.replace(/ /g, '-'); // This example replaces spaces with dashes.
