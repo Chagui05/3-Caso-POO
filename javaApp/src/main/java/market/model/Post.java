@@ -15,11 +15,12 @@ public class Post implements IVisitable {
 	private Product product;
 	private String imageURL;
 	private Vector<Review> reviews;
+	private User user;
 	
 	public Post() {
 		
 	}
-	public Post(double rating, LocalDate date, String description, Product product, String image,Vector<Review> reviews, int id) {
+	public Post(double rating, LocalDate date, String description, Product product, String image,Vector<Review> reviews, int id, User user) {
 		this.rating = rating;
 		this.date = date;
 		this.description = description;
@@ -28,6 +29,7 @@ public class Post implements IVisitable {
 		this.imageURL = image;
 		this.reviews = reviews;
 		this.id = id;
+		this.user = user;
 	}
 
 	public double getRating() {
@@ -98,6 +100,14 @@ public class Post implements IVisitable {
 	public void setAllRatings(Vector<Double> allRatings) {
 		this.allRatings = allRatings;
 	}
+
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	//rating
 	@Override
 	public void accept(IVisitor visitor) {
