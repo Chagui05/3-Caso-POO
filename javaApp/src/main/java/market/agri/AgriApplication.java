@@ -37,21 +37,23 @@ public class AgriApplication {
 		UserRepository userRep = UserRepository.getInstance();
 		ReviewRepository reviewRep = ReviewRepository.getInstance();
 		PostRepository postRep = PostRepository.getInstance();
+		redisDB.botonDeAutoDestrucion();
 		
 		SingleUser santi = new SingleUser("Santi", 1234, 4);
+		SingleUser marco = new SingleUser("Marco",4444,1);
+		SingleUser sebas = new SingleUser("Sebastián", 333, 3);
+		SingleUser chris = new SingleUser("christian", 8080, 2);
 		Review rev = new Review(santi, 5, "Me gusto mucho este producto", 1020);
-		
-		Tool cerrucho = new Tool("cerru", 300, Condition.GOOD);
+		Tool cerrucho = new Tool("cerrucho", 300, Condition.GOOD);
 		
 		Vector<Review> revs = new Vector<>();
 		revs.add(rev);
 		
-		Post post = new Post(1, LocalDate.now(), "el peor serrucho", cerrucho, "unUrl.com",revs, 2222, santi);
-		Post post1 = new Post(2, LocalDate.now(), "el serrucho", cerrucho, "unUrl.com",revs, 2222, santi);
-		Post post2 = new Post(3, LocalDate.now(), "el serrucho más normal", cerrucho, "unUrl.com",revs, 2223, santi);
-		Post post3 = new Post(4, LocalDate.now(), "el casi mejor serrucho", cerrucho, "unUrl.com",revs, 2224, santi);
-		Post post4 = new Post(5, LocalDate.now(), "el mejor serrucho", cerrucho, "unUrl.com",revs, 2225, santi);
-		
+		Post post = new Post(1, LocalDate.now(), "el peor serrucho", cerrucho, "https://static.wikia.nocookie.net/silly-cats/images/0/08/Millybleh.jpg/revision/latest/smart/width/250/height/250?cb=20230402232520",revs, 2122, santi);
+		Post post1 = new Post(2, LocalDate.now(), "el serrucho", cerrucho, "https://preview.redd.it/ktxuj7clhbkb1.jpg?width=1179&format=pjpg&auto=webp&s=b1afe6e579a3c3416659d16b039824e7b0dde873",revs, 2222, marco);
+		Post post2 = new Post(3, LocalDate.now(), "el serrucho más normal", cerrucho, "https://media.tenor.com/t3dLLNaI50oAAAAC/cat-cats.gif",revs, 2223, sebas);
+		Post post3 = new Post(4, LocalDate.now(), "el casi mejor serrucho", cerrucho, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFaB5cFGzR2FcRfDOMPBSl8ftyT0QxQRTOsQ&usqp=CAU",revs, 2224, chris);
+		Post post4 = new Post(5, LocalDate.now(), "el mejor serrucho", cerrucho, "https://us-tuna-sounds-images.voicemod.net/f3d61aaf-8fef-42a1-b4e5-784618b3b7cf-1676757488979.png",revs, 2225, santi);
 		postRep.save(post);
 		postRep.save(post1);
 		postRep.save(post2);
@@ -60,6 +62,9 @@ public class AgriApplication {
 
 		reviewRep.save(rev);
 		userRep.save(santi);
+		userRep.save(marco);
+		userRep.save(sebas);
+		userRep.save(chris);
 		
 		List<Post> posts = postRep.findAll();
 		System.out.println(posts.toString());
