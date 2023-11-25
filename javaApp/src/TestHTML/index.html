@@ -99,7 +99,7 @@
       </div></footer>
     <section class="u-backlink u-clearfix u-grey-80">
       <script>    
-      const isLoggedIn = true/* Set this dynamically based on your authentication logic */;
+      const isLoggedIn = false/* Set this dynamically based on your authentication logic */;
 
       function navigateToPerfil() {
         // Assuming you have a variable isLoggedIn indicating the user's login status
@@ -130,7 +130,7 @@
             this.product = product;//ingresar
             this.imageURL = imageURL;//ingresar
             this.reviews = reviews;
-            this.user = user
+            this.user = user;
           }
           
 
@@ -249,7 +249,7 @@
           //<!--! // Generate a unique identifier for each post, e.g., based on the post title
           function generateUniqueID(post) {
           // Customize this function to generate a unique identifier based on your post data.
-            return post.title.replace(/ /g, '-'); // This example replaces spaces with dashes.
+          return post.title.replace(/ /g, '-'); // This example replaces spaces with dashes.
           }
     
         // Add an event listener to execute the function once the page is loaded
