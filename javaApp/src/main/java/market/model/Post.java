@@ -20,13 +20,14 @@ public class Post implements IVisitable {
 	public Post() {
 		
 	}
-	public Post(double rating, LocalDate date, String description, Product product, String image,Vector<Review> reviews, int id, User user) {
+	public Post(double rating, LocalDate date, String description, Product product, String imageURL,Vector<Review> reviews, int id, User user) {
 		this.rating = rating;
+		this.allRatings = new Vector<Double>();
 		this.date = date;
 		this.description = description;
 		this.price = product.getPrice();
 ;		this.product = product;
-		this.imageURL = image;
+		this.imageURL = imageURL;
 		this.reviews = reviews;
 		this.id = id;
 		this.user = user;

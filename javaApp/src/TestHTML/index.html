@@ -157,14 +157,17 @@
         }
 
         class Product{
-          constructor(name, price){
+          constructor(name, price, type, condition){
             this.name = name;
             this.price = price;
+            this.type = type;
+            this.condition = condition;
           }
         }
 
         class User {
-          constructor(name, id, userRating){
+          constructor(type, name, id, userRating, wallet){
+          this.type = type;
           this.name = name;
           this.id = id;
           this.userRating = userRating;
@@ -188,8 +191,25 @@
           })
           .then(data => {
             // Trabajar con el objeto JSON recibido
+            data.forEach(postData => {
+              let reviews = [];
+              postData.reviews.forEach(reviewData => {
+                const user = reviewData.user ? new User(reviewData.user.type, reviewData.user.name, reviewData.user.id, reviewData.user.userRating, reviewData.user.wallet) : null;
+                const review = new Review(user, reviewData.rating, reviewData.comment);
+                reviews.push(review);
+              });
+
+              const product = new Product(postData.product.name, postData.product.price, postData.product.type, postData.product.condition);
+
+              const user = postData.user ? new User(postData.user.type, postData.user.name, postData.user.id, postData.user.userRating, postData.user.wallet) : null;
+
+              const post = new BlogPost(postData.rating, postData.allRatings, postData.id, postData.date, postData.description, postData.price, product, postData.imageURL, reviews, user);
+              blogPosts.push(post);
+              console.log("", postData.user.name)
+            });            
             console.log('Objeto JSON recibido:', data);
-            blogPosts = data;
+            displayPosts();
+            //blogPosts = data;
           })
           .catch(error => {
             // Manejar errores de la solicitud
@@ -199,10 +219,10 @@
         //==================================================================================fetch
      
         // Create objects BlogPost and add them to the array
-        const product = new Product("Hacha", 12.99)
+        /* const product = new Product("Hacha", 12.99)
         const user = new User("Juan", 1, 4)
         const post = new BlogPost(2.5, [], 2222,  new Date(), 'Descripción del Producto 1', 29.99, product, 'https://drive.google.com/uc?export=download&id=1W8k2hrvOkLKjJ1nGe-d4MHvDJb7VLWIV', [{},{}], user);
-        blogPosts.push(post);
+        blogPosts.push(post); */
 
         // Modify the displayPosts function to clear the existing list and add all posts
         function displayPosts() {
@@ -219,7 +239,7 @@
             // Create a link for each post with a unique identifier in the URL
             const postLink = document.createElement('a');
             //<!--! 
-            postLink.href = `post.html?postID=${generateUniqueID(post)}`;
+            postLink.href = `post.html?postID=${post.id}`;
             postLink.innerHTML = `
               <div class="u-blog-post u-container-style u-custom-color-1 u-radius-10 u-repeater-item u-shape-round">
                 <div class="u-container-layout u-similar-container u-container-layout-1">
@@ -229,6 +249,7 @@
 
                   <h4 class="u-blog-control u-text u-text-1">${post.product.name}</h4>
                   <div class="u-blog-control u-metadata u-metadata-1">
+                    <span class="u-meta-author u-meta-icon">${post.date}</span>
                     <span class="u-meta-author u-meta-icon">${post.user.name}</span>
                   </div>
                   <div class="style u-clearfix u-custom-html u-custom-html-1">
@@ -247,10 +268,10 @@
           }
 
           //<!--! // Generate a unique identifier for each post, e.g., based on the post title
-          function generateUniqueID(post) {
+          //function generateUniqueID(post) {
           // Customize this function to generate a unique identifier based on your post data.
-          return post.title.replace(/ /g, '-'); // This example replaces spaces with dashes.
-          }
+          //return post.title.replace(/ /g, '-'); // This example replaces spaces with dashes.
+          //}
     
         // Add an event listener to execute the function once the page is loaded
         window.addEventListener('load', displayPosts);
