@@ -5,6 +5,9 @@ import market.model.Post;
 import market.repository.PostRepository;
 import market.repository.ReviewRepository;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.Vector;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,11 +29,11 @@ public class ReviewAPI {
     public Review createReview(@RequestBody Review review) {
         reviewRep.save(review);     
         //agregar cuando los post de la página tengan id
-        //Post currentPost = postRep.findById(review.getId());
-        //Vector<Review> reviews = currentPost.getReviews();
-        //reviews.add(review);
-        //currentPost.setReviews(reviews);
-        //postRep.save(currentPost);
+        /* Post currentPost = postRep.findById(review.getId());
+        Vector<Review> reviews = currentPost.getReviews();
+        reviews.add(review);
+        currentPost.setReviews(reviews);
+        postRep.save(currentPost); */
         return review;
     }
     /* prueba para postman. esto es lo que debería tomar del formulario.
@@ -48,7 +51,7 @@ public class ReviewAPI {
     "rating": 2.3,
     "allRatings": [1.2,3],
     "comment": "mal producto",
-    "likes": -1
+    "likes": 
 }
      */
 }
