@@ -160,53 +160,55 @@
       // Retrieve post data from query parameters
       const queryParams = new URLSearchParams(window.location.search);
       const postID = queryParams.get("postID");
-  
-      // cambiar por datos recibidos del post.
-      const postData = {
-          image: "test.jfif",
-          user: "Usuario",
-          title: "Post de Prueba",
-          date: "Oct 31, 2023",
-          content: "Descripcion del producto",
-      };
-  
-      // Update the placeholders with the actual post data
-      document.getElementById("post-image").src = postData.image;
-      document.getElementById("post-user").textContent = postData.user;
-      document.getElementById("post-title").textContent = postData.title;
-      document.getElementById("post-date").textContent = postData.date;
-      document.getElementById("post-content").textContent = postData.content;
+      //======================================fetch Get================================================
+      const reviews = [];
+      
+      fetch(`http://localhost:8080/reviews/${postID}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('La solicitud no fue exitosa');
+            }
+            // Parsear la respuesta a JSON
+            return response.json();
+          })
+          .then(data => {
+            // Trabajar con el objeto JSON recibido
+            console.log('Objeto JSON recibido:', data);
+            
+            data.reviews.forEach(reviewData => {
+              reviews.push({
+                author: reviewData.user.name,
+                content: reviewData.comment,
+                rating: reviewData.rating
+              })
+            });
+            document.getElementById("post-image").src = data.imageURL;
+            document.getElementById("post-user").textContent = data.user.name;
+            document.getElementById("post-title").textContent = data.product.name;
+            document.getElementById("post-date").textContent = data.date;
+            document.getElementById("post-content").textContent = data.description;
+            populateReviews();
+            //blogPosts = data;
+          })
+          .catch(error => {
+            // Manejar errores de la solicitud
+            console.error('Se produjo un error:', error);
+          });                   
+      class review{
+        constructor(){
 
-              // debría agarrarse del objeto post
-              const reviewsData = [
-          {
-              author: "User 1",
-              date: "Oct 31, 2023",
-              content: "This is the first review for the post.",
-              rating:3
-          },
-          {
-              author: "User 2",
-              date: "Nov 1, 2023",
-              content: "Great tractor! I love it.",
-              rating:5
-          },
-          {
-              author: "User 3",
-              date: "Nov 2, 2023",
-              content: "Could be better.",
-              rating:2
-          },
-      ];
+        }
+      }
+
 
       // Function to populate reviews
       function populateReviews() {
           const reviewsList = document.getElementById("reviews-list");
 
-          reviewsData.forEach((review) => {
+          reviews.forEach((review) => {
               const li = document.createElement("li");
               li.innerHTML = `
-                  <strong>${review.author}</strong> - ${review.date} <strong>Rating: </strong>${review.rating}/5<br> 
+                  <strong>${review.author}</strong><strong>'s Rating: </strong>${review.rating}/5<br> 
                   ${review.content}
               `;
               reviewsList.appendChild(li);
@@ -247,8 +249,8 @@
             peopleInvolved,
           };
           
-          // Add the new review to the reviewsData array
-          reviewsData.push(newReview);
+          // Add the new review to the reviews array
+          reviews.push(newReview);
 
           //fetch del new review
 
@@ -268,7 +270,7 @@
           // Populate the reviews list with the updated data
           populateReviews();
 
-          //======================================fetch================================================ no tiene permiso para hacer POST ???? deberían salir de la lista de reviews y guardarse ahí mismo.
+          //======================================fetch Post================================================ no tiene permiso para hacer POST ???? deberían salir de la lista de reviews y guardarse ahí mismo.
           const fetchReview = {
             user: author,
             id: 0,

@@ -1,6 +1,5 @@
 package market.model;
 
-import java.awt.Image;
 import java.time.LocalDate;
 import java.util.Vector;
 
@@ -15,7 +14,7 @@ public class Post implements IVisitable {
 	private Product product;
 	private String imageURL;
 	private Vector<Review> reviews;
-	private User user;
+	private User user; 
 	
 	public Post() {
 		
@@ -26,7 +25,7 @@ public class Post implements IVisitable {
 		this.date = date;
 		this.description = description;
 		this.price = product.getPrice();
-;		this.product = product;
+		this.product = product;
 		this.imageURL = imageURL;
 		this.reviews = reviews;
 		this.id = id;

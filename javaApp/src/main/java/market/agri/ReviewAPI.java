@@ -4,7 +4,6 @@ import market.model.Review;
 import market.model.Post;
 import market.repository.PostRepository;
 import market.repository.ReviewRepository;
-import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,15 +16,13 @@ public class ReviewAPI {
     ReviewRepository reviewRep = ReviewRepository.getInstance();
     PostRepository postRep = PostRepository.getInstance();
 
-    @GetMapping("/reviews/{postId}")
-    public List<Review> showcaseReviews(@PathVariable("postId") int postId) {
-        
+    @GetMapping("/reviews/{postId}")//obtiene la información de las reviews de un post, utilizando el id único que deberían tener los posts. Muestra la lista reviews de un post    
+    public Post showcaseReviews(@PathVariable("postId") int postId) {
         //retorna los reviews del post para mostrarlos en la pág del post. En post.html debe mostrar los reveiws fetcheados de aquí 
         Post currentPost = postRep.findById(postId);
-        List<Review> postReviews = currentPost.getReviews();
-        return postReviews;
+        return currentPost;
     }
-    @PostMapping("/reviews")
+    @PostMapping("/reviews")//Toma los valores del formulario para crear una review y los guarda en redis
     public Review createReview(@RequestBody Review review) {
         reviewRep.save(review);     
         //agregar cuando los post de la página tengan id
@@ -36,7 +33,7 @@ public class ReviewAPI {
         //postRep.save(currentPost);
         return review;
     }
-    /* prueba para postman
+    /* prueba para postman. esto es lo que debería tomar del formulario.
      {
     "user": {
             "type": "singleUser",
