@@ -11,30 +11,51 @@
     <form onsubmit="createPost()">
         <a href="index.html" class="back-arrow">&#8592;</a>
         <div class="productName product-name">
-            <label for="productName">Product Name</label>
+            <label for="productName">Nombre del producto</label>
             <div class="sec-2">
                 <ion-icon name="mail-outline"></ion-icon>
-                <input type="text" name="productName" id="productName" placeholder="Product Name" required="true">
+                <input type="text" name="productName" id="productName" placeholder="Nombre del producto" required="true">
             </div>
         <div class="price">
-            <label for="price">Price</label>
+            <label for="price">Precio por unidad</label>
             <div class="sec-2">
                 <ion-icon name="mail-outline"></ion-icon>
-                <input type="text" name="price" id="price" placeholder="Price" required="true">
-            </div>
-        </div>
-        <div class="description">
-            <label for="description">Description</label>
-            <div class="sec-2">
-                <ion-icon name="mail-outline"></ion-icon>
-                <input type="text" name="description" id="description" placeholder="Description" required="true">
+                <input type="text" name="price" id="price" placeholder="Precio" required="true">
             </div>
         </div>
         <div class="image">
-            <label for="image">Image URL</label>
+            <label for="image">URL de la imagen</label>
             <div class="sec-2">
                 <ion-icon name="mail-outline"></ion-icon>
-                <input type="text" name="image" id="image" placeholder="Image URL" required="true">
+                <input type="text" name="image" id="image" placeholder="URL de la imagen" required="true">
+            </div>
+        </div>
+        <div class="comission">
+            <label for="image">Porcentaje de comision</label>
+            <div class="sec-2">
+                <ion-icon name="mail-outline"></ion-icon>
+                <input type="number" name="image" id="image" placeholder="Porcentaje de comision" required="true">
+            </div>
+        </div>
+        <div class="unit">
+            <label for="unit">Unidad de medida</label>
+            <div class="sec-2">
+                <select name="unit" id="unit" required="true">
+                    <option value="unidad">Unidad</option>
+                    <option value="litro">Litro</option>
+                    <option value="kilo">Kilo</option>
+                </select>
+            </div>
+        </div>
+        <div class="category">
+            <label for="unit">Categoria del producto</label>
+            <div class="sec-2">
+                <select name="category" id="unit" required="true">
+                    <option value="pesticida">Pesticida</option>
+                    <option value="fertilizante">Fertilizante</option>
+                    <option value="herramienta">Herramienta</option>
+                    <option value="maquinaria">Maquinaria</option>
+                </select>
             </div>
         </div>
         <div class="submit">
@@ -43,20 +64,29 @@
                 <input type="submit" value="Submit">
             </div>
         </div>
+        
     </form>
     <script>
-        class BlogPost {
-            constructor(id, comments, userId, date, description, price, location, image, tags) {
-                this.id = id;
-                this.comments = comments;
-                this.userId = userId;
-                this.date = date;
-                this.description = description;
-                this.price = price;
-                this.location = location;
-                this.image = image;
-                this.tags = tags;
+        class Product {
+            constructor(pName,pPrice,category) {
+                this.name = pName;
+                this.price = pPrice;	
+                this.category = category;
             }
+        }
+
+        class BlogPost {
+            constructor(id, date, name, product, imageURL, reviews, price, user,unit,category){
+            this.id = id;
+            this.date = date;
+            this.name = name;
+            this.product = new Product(name,price,category);
+            this.imageURL = imageURL;
+            this.reviews = reviews;
+            this.price = price;
+            this.user = user;
+            this.unit = unit;
+          }
         }
         const blogPosts = []; // Assuming you have this array defined somewhere in your code
     
@@ -65,8 +95,9 @@
     
             const productName = document.getElementsByName('productName')[0].value;
             const priceInput = document.getElementsByName('price')[0];
-            const description = document.getElementsByName('description')[0].value;
             const imageInput = document.getElementsByName('image')[0];
+            const unitSelect = document.getElementsByName('unit')[0];
+            const categorySelect = document.getElementsByName('category')[0];
     
             // Validate price
             const price = parseFloat(priceInput.value);
@@ -81,8 +112,20 @@
                 alert('Please enter a valid image URL.');
                 return;
             }
+            // Create post object
+            const post = new BlogPost(
+                blogPosts.length + 1,
+                new Date(),
+                productName,
+                price,
+                imageUrl,
+                [],
+                price,
+                'user',
+                unitSelect.value,
+                categorySelect.value
+            );
     
-            const post = new BlogPost(0, [], 2222, new Date(), description, price, {}, imageUrl, [{} , {}]);
             blogPosts.push(post);
     
             console.log('New blog post created:', post);

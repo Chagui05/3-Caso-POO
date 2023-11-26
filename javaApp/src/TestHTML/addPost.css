@@ -78,6 +78,29 @@ input[type="submit"]:hover {
     border: none;
 }
 
+.unit{
+    padding: 1em;
+    margin-bottom: 1em;
+    box-sizing: border-box;
+    background: white;
+    box-shadow: 0 0 2em #e6e9f9;
+    border-radius: 20px;
+    color: #4d4d4d;
+    outline: none;
+    border: none;
+}
+.category{
+    padding: 1em;
+    margin-bottom: 1em;
+    box-sizing: border-box;
+    background: white;
+    box-shadow: 0 0 2em #e6e9f9;
+    border-radius: 20px;
+    color: #4d4d4d;
+    outline: none;
+    border: none;
+}
+
 .back-arrow {
     margin-left: 20px;
     position: absolute;

@@ -26,6 +26,11 @@
     margin-right: 5px; /* Add spacing between author and date */
   }
 
+  .rate.u-stars {
+    margin-left: 500px;
+}
+
+
     </style>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -112,7 +117,11 @@
                 </div>
                 <!-- Placeholder for post content -->
                 <div class="u-blog-control u-text u-text-2" id="post-content"></div><br>
-                <button id="comprar-button" class="u-button u-button-primary u-button-1" type="button">Comprar</button>
+                <div class="u-form u-form-1">
+                <label for="quantity">Cantidad:</label>
+                <input type="number" id="quantity" name="Cantidad" min="1" value="1"> 
+                <button id="comprar-button" class="u-button u-button-primary u-button-1" type="button">Comprar</button><br><br>
+                </div>
                 </div>
               </div>
             </div>
@@ -124,17 +133,24 @@
             <h3 class="u-text u-text-3">Reviews</h3>
             <br>
             <form id="review-form">
-              <label for="author">Autor:</label>
+              <label id="author-label"for="author">Autor:</label>
               <input type="text" id="author" name="author" required><br><br>
             
-              <label for="rating">Valoracion:</label>
-              <input type="number" id="rating" name="rating" min="1" max="5" required><br><br>
+              <div class="rate u-stars">
+                <input type="radio" id="star5" name="rate" value="5">
+                <label for="star5" title="text">5 stars</label>
+                <input type="radio" id="star4" name="rate" value="4">
+                <label for="star4" title="text">4 stars</label>
+                <input type="radio" id="star3" name="rate" value="3">
+                <label for="star3" title="text">3 stars</label>
+                <input type="radio" id="star2" name="rate" value="2">
+                <label for="star2" title="text">2 stars</label>
+                <input type="radio" id="star1" name="rate" value="1">
+                <label for="star1" title="text">1 star</label>
+              </div><br><br><br>
             
               <label for="content">Review:</label>
               <textarea id="content" name="content" required></textarea><br><br>
-            
-              <input type="checkbox" id="group" name="group">
-              <label for="group">Organización o grupo</label><br><br>
             
               <div id="group-fields" style="display: none;">
                 <label for="people-involved">Número de personas involucradas:</label><br>
@@ -157,6 +173,8 @@
         </div></footer>
       <section class="u-backlink u-clearfix u-grey-80">
     <script>
+
+
       // Retrieve post data from query parameters
       const queryParams = new URLSearchParams(window.location.search);
       const postID = queryParams.get("postID");
@@ -221,32 +239,32 @@
       // Handle the "Organización o grupo" checkbox change event
       const groupCheckbox = document.getElementById("group");
       const groupFields = document.getElementById("group-fields");
-      const peopleInvolved = document.getElementById("people-involved");
-      peopleInvolved.value=1
 
-      groupCheckbox.addEventListener("change", function() {
-        groupFields.style.display = groupCheckbox.checked ? "block" : "none";
-        peopleInvolved.value=1
-      });
+
 
       // Function to add a review, including the number of people involved (if applicable)
+      const stars = document.getElementsByName('rate');
+      let selectedValue = 0;
+
+      stars.forEach((star) => {
+          star.addEventListener('change', (event) => {
+              selectedValue = event.target.value;
+              console.log('Selected value:', selectedValue);
+          });
+      });
       function addReview() {
         const author = document.getElementById("author").value;
-        const rating = document.getElementById("rating").value;
+        const rating = selectedValue
         const content = document.getElementById("content").value;
-        const isGroup = document.getElementById("group").checked;
-        const peopleInvolved = isGroup ? document.getElementById("people-involved").value : null;
 
         // Check if the input values are not empty
-        if (author && rating && content) {
+        if (author && content) {
           // Create a new review object
           const newReview = {
             author,
             date: new Date().toLocaleDateString(),
             content,
             rating,
-            isGroup,
-            peopleInvolved,
           };
           
           // Add the new review to the reviews array
@@ -257,8 +275,7 @@
           // Clear the form fields
           document.getElementById("review-form").reset();
 
-          // Reset the "Organización o grupo" checkbox to unchecked
-          document.getElementById("group").checked = false;
+          selectedValue=0
 
           // Hide the group fields
           document.getElementById("group-fields").style.display = "none";
@@ -304,48 +321,108 @@
       }
 
 // Function to handle "Comprar" button click
+
+      //<!--!Fetchear usuario real, todos estos datos son para testear
+
+        class Post{
+          constructor(id, date, name, product, imageURL, reviews, price, user){
+            this.id = id;
+            this.date = date;
+            this.name = name;
+            this.product = product;
+            this.imageURL = imageURL;
+            this.reviews = reviews;
+            this.price = price;
+            this.user = user;
+          }
+          getReviews(){
+            return this.reviews;
+          }
+          getPrice(){
+            return this.price;
+          }
+        }
+
+
+        class SingleUser{
+        constructor(email, id, userRating, password){
+          this.name = email.split('@')[0];
+          this.id = id;
+          this.userRating = userRating;
+          this.wallet = 0;
+          this.email = email;
+          this.password = password;
+        }
+      }
+
+      class unionUser{
+        constructor(email, id, userRating, password, peopleInUnion){
+          this.name = email.split('@')[0];
+          this.id = id;
+          this.userRating = userRating;
+          this.wallet = 0;
+          this.email = email;
+          this.password = "";
+          this.peopleInUnion = peopleInUnion;
+		      this.commision = 0.07; //<!--!Esto en realidad se saca del post creo
+        }
+      }
+        
+      union = new unionUser("unionAgricola@gmail.com", 1234, 4, "union123",5);
+      single = new SingleUser("single@gmail.com",4444,1,"single123");
+      actualUser=union; //<!--!Aqui va el user real
+      post = new Post(1, "fecha", "el peor serrucho", "cerrucho", "https://i.pinimg.com/1200x/8b/03/1c/8b031cd4c0f0dc70cd229d5dcb1a7497.jpg","revs1", 2122, single);
+
+
+      if (actualUser instanceof SingleUser) {
+        // If the user is not a unionUser, hide the Autor label and textbox
+        document.getElementById("author-label").style.display = "none";
+        document.getElementById("author").style.display = "none";
+      }
+
 document.getElementById("comprar-button").addEventListener("click", function() {
     // Retrieve post data from the placeholders
     const postTitle = document.getElementById("post-title").textContent;
-    const postID = 1; // You can generate a unique ID for the sale
-    const postPrice = 99.99; // Set the price of the product
-    const users = ["User1", "User2", "User3"]; // Sample users vector
 
-    // Create a sale class item
-    const saleItem = {
-      post: {
-        title: postTitle,
-        // Add other post details if needed
-      },
-      id: postID,
-      price: postPrice,
-      users: users,
-    };
+    //<!--! Create a sale class item testing purposes
+    class saleItem{
+      constructor(pPost, pId) {
+		this.post = pPost;
+		this.id = pId;
+		this.quantity = document.getElementById("quantity").value;
+		this.price = pPost.getPrice();
+    this.seller = post.user
+    this.buyer = actualUser;
+	}
+    }
+    //<!--! la cantidad de sales que hayan en la db
+    let itemSale = new saleItem(post, 4, 4);
 
     // Log the sale item to the console (you can replace this with your desired logic)
-    console.log(saleItem);
+    console.log(itemSale);
+    console.log(actualUser);
   });
 
 
-      // Handle form submission
-      document.getElementById("review-form").addEventListener("submit", function(event) {
-        event.preventDefault();
-        
-        addReview();
-      });
+  // Handle form submission
+  document.getElementById("review-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+    
+    addReview();
+  });
 
-        const numberInput = document.getElementById("people-involved");
-        
-        numberInput.addEventListener("keydown", function(event) {
-            if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-                // Allow arrow up and down keypresses
-                return true;
-            } else {
-                // Prevent all other keyboard input
-                event.preventDefault();
-                return false;
-            }
-        });
+  const numberInput = document.getElementById("people-involved");
+  
+  numberInput.addEventListener("keydown", function(event) {
+      if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+          // Allow arrow up and down keypresses
+          return true;
+      } else {
+          // Prevent all other keyboard input
+          event.preventDefault();
+          return false;
+      }
+  });
     </script>
   </body>
 </html>

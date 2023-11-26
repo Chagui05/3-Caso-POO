@@ -131,6 +131,7 @@
             this.imageURL = imageURL;
             this.reviews = reviews;
             this.user = user;
+            
           }
           
 
@@ -240,6 +241,8 @@
                   <div class="u-blog-control u-metadata u-metadata-1">
                     <span class="u-meta-author u-meta-icon">${post.date}</span>
                     <span class="u-meta-author u-meta-icon">${post.user.name}</span>
+                    <span class="u-meta-author u-meta-icon">Comentarios: ${post.reviews.length}</span>
+                    <span class="u-meta-tags u-meta-icon">Precio por unidad: ${post.price}</span>
                   </div>
                   <div class="style u-clearfix u-custom-html u-custom-html-1">
                     <meta charset="UTF-8">
