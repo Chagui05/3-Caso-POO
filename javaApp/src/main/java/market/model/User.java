@@ -17,6 +17,8 @@ public abstract class User implements IVisitable {
 	private Vector<Double> allRatings;
 	private double wallet;
 	private Vector<Post> posts;
+	private String email;
+	private String password;
 	protected double commision;
 	
 	public User() {
@@ -27,6 +29,8 @@ public abstract class User implements IVisitable {
 		this.id = id;
 		this.userRating = userRating;
 		this.wallet = 0;
+		this.email = "";
+		this.password = "";
 	}
 
 	public String getName() {
@@ -85,6 +89,20 @@ public abstract class User implements IVisitable {
 	}
 	public void setPosts(Vector<Post> posts) {
 		this.posts = posts;
+	}
+
+	public String getEmail(){
+		return email;
+	}
+	public void setEmail(String email){
+		this.email = email;
+	}
+
+	public String getPassword(){
+		return password;
+	}
+	public void setPassword(String password){
+		this.password = password;
 	}
 
 }

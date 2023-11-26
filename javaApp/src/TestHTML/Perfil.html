@@ -106,7 +106,7 @@
     <section class="u-clearfix u-section-1" id="sec-1f9e">
       <div class="u-clearfix u-sheet u-valign-bottom u-sheet-1">
         <div class="u-image u-image-circle u-image-1" alt="" data-image-width="1080" data-image-height="1065"></div>
-        <p class="u-align-center u-custom-font u-font-montserrat u-large-text u-text u-text-variant u-text-1">Cristina Flores Barquero</p>
+        <p class="u-align-center u-custom-font u-font-montserrat u-large-text u-text u-text-variant u-text-1">Nombre</p>
         <div class="u-expanded-width u-tab-links-align-center u-tabs u-tabs-1">
           <ul class="u-grey-10 u-tab-list u-unstyled u-tab-list-1" role="tablist">
             <li class="u-tab-item" role="presentation">
@@ -213,17 +213,18 @@ function drawChart() {
   <section class="u-backlink u-clearfix u-grey-80">
     <script>
       class BlogPost {
-        constructor(image, user, date, title, description, price, purchaseLocation, commissionPercentage) {
-          this.image = image;
-          this.user = user;
-          this.date = date;
-          this.title = title;
-          this.description = description;
-          this.price = price;
-          this.purchaseLocation = purchaseLocation;
-          this.commissionPercentage = commissionPercentage;
-          this.reviews = [];
-        }
+        constructor(rating, allRatings, id, date, description, price, product, imageURL, reviews, user) {
+            this.rating = rating;
+            this.allRatings = allRatings;
+            this.id = id;
+            this.date = date;
+            this.description = description;
+            this.price = price;
+            this.product = product;
+            this.imageURL = imageURL;
+            this.reviews = reviews;
+            this.user = user;
+          }
     
         addReview(review) {
           this.reviews.push(review);
@@ -246,16 +247,45 @@ function drawChart() {
           this.comment = comment;
         }
       }
-    
+
       const blogPosts = [];
-    
-      // Create objects BlogPost and add them to the array
-      const post1 = new BlogPost('test.jfif', 'Usuario1', new Date(), "Post de prueba", 'Descripción del Producto 1', 29.99, 'TiendaA', 3);
-      const post2 = new BlogPost('test.jfif', 'Usuario2', new Date(), "Post de prueba", 'Descripción del Producto 2', 39.99, 'TiendaB', 4);
-      const post3 = new BlogPost('test.jfif', 'Usuario3', new Date(), "Post de prueba", 'Descripción del Producto 3', 49.99, 'TiendaC', 5);
-    
-      blogPosts.push(post1, post2, post3);
-    
+      //<!--!==================================================================================fetch
+        // Realizar una solicitud GET usando fetch
+        fetch(`http://localhost:8080/user/4444`)//${userID}`)
+          .then(response => {
+            // Verificar si la solicitud fue exitosa (código de estado 200)
+            if (!response.ok) {
+              throw new Error('La solicitud no fue exitosa');
+            }
+            // Parsear la respuesta a JSON
+            return response.json();
+          })
+          .then(data => {
+            // Trabajar con el objeto JSON recibido
+            data.posts.forEach(postData => {
+              let reviews = [];
+              postData.reviews.forEach(reviewData => {
+                const user = reviewData.user ? new User(reviewData.user.type, reviewData.user.name, reviewData.user.id, reviewData.user.userRating, reviewData.user.wallet) : null;
+                const review = new Review(user, reviewData.rating, reviewData.comment);
+                reviews.push(review);
+              });
+
+              const product = new Product(postData.product.name, postData.product.price, postData.product.type, postData.product.condition);
+
+              const user = postData.user ? new User(postData.user.type, postData.user.name, postData.user.id, postData.user.userRating, postData.user.wallet) : null;
+
+              const post = new BlogPost(postData.rating, postData.allRatings, postData.id, postData.date, postData.description, postData.price, product, postData.imageURL, reviews, user);
+              blogPosts.push(post);
+            });            
+            console.log('Objeto JSON recibido:', data);
+            displayPosts();
+          })
+          .catch(error => {
+            // Manejar errores de la solicitud
+            console.error('Se produjo un error:', error);
+          });
+
+        //==================================================================================fetch    
       // Modify the displayPosts function to clear the existing list and add all posts
       function displayPosts() {
         const postList = document.getElementById('post-list');
@@ -273,13 +303,13 @@ function drawChart() {
           postLink.innerHTML = `
             <div class="u-blog-post u-container-style u-custom-color-1 u-radius-10 u-repeater-item u-shape-round">
               <div class="u-container-layout u-similar-container u-container-layout-1">
-                <a class="u-post-header-link u-title-padding" href="${post.title}.html">
+                <a class="u-post-header-link u-title-padding" href="${post.product.name}.html">
                 </a>
-                <img alt="" class="custom-expanded u-blog-control u-image u-image-round u-radius-10" src="${post.image}">
+                <img alt="" class="custom-expanded u-blog-control u-image u-image-round u-radius-10" src="${post.imageURL}">
 
-                <h4 class="u-blog-control u-text u-text-1">${post.title}</h4>
+                <h4 class="u-blog-control u-text u-text-1">${post.product.name}</h4>
                 <div class="u-blog-control u-metadata u-metadata-1">
-                  <span class="u-meta-author u-meta-icon u-fecha-padding">${(post.date).toDateString()}</span>
+                  <span class="u-meta-author u-meta-icon u-fecha-padding">${(post.date)}</span>
                 </div>
                 <div class="style u-clearfix u-custom-html u-custom-html-1">
                   <meta charset="UTF-8">
@@ -294,13 +324,6 @@ function drawChart() {
         postList.appendChild(listItem);
         });
         }
-
-        // Generate a unique identifier for each post, e.g., based on the post title
-        function generateUniqueID(post) {
-        // Customize this function to generate a unique identifier based on your post data.
-        return post.title.replace(/ /g, '-'); // This example replaces spaces with dashes.
-        }
-  
       // Add an event listener to execute the function once the page is loaded
       window.addEventListener('load', displayPosts);
     </script>
