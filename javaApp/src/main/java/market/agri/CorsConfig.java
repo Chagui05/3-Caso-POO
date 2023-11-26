@@ -9,23 +9,23 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/posts")
-                .allowedOrigins("*") // Agrega aquí los orígenes permitidos
+                .allowedOrigins("*") 
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*");
         registry.addMapping("/reviews/{postId}")
-                .allowedOrigins("*") // Agrega aquí los orígenes permitidos
+                .allowedOrigins("*") 
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*");
         registry.addMapping("/reviews")
-                .allowedOrigins("*") // Agrega aquí los orígenes permitidos
+                .allowedOrigins("*") 
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*");
         registry.addMapping("/user/{userID}")
-                .allowedOrigins("*") // Agrega aquí los orígenes permitidos
+                .allowedOrigins("*") 
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*");
         registry.addMapping("/register")
-                .allowedOrigins("*") // Agrega aquí los orígenes permitidos
+                .allowedOrigins("*") 
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*");
         
