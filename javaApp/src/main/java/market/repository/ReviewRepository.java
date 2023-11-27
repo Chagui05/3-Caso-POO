@@ -5,8 +5,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import market.model.Review;
 import market.model.User;
@@ -21,6 +20,7 @@ public class ReviewRepository implements IRepository<Review>{
 	private ReviewRepository() {
 		jedis = ConnectDBRepository.getInstance().getJedis();
 		objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new JavaTimeModule());
 	}
 	
 	// constructor singleton
