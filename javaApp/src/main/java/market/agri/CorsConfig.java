@@ -16,7 +16,7 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedOrigins("*") 
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*");
-        registry.addMapping("/reviews")
+        registry.addMapping("/reviews/{postId}")
                 .allowedOrigins("*") 
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*");
@@ -33,6 +33,10 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "PUT", "DELETE") 
                 .allowedHeaders("*");
         registry.addMapping("/login")
+                .allowedOrigins("*") 
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedHeaders("*");
+        registry.addMapping("/newPost")
                 .allowedOrigins("*") 
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*");
