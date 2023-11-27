@@ -6,9 +6,10 @@ import java.util.Vector;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import market.model.Review;
 import market.model.Sale;
 import redis.clients.jedis.Jedis;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 
 public class SaleRepository implements IRepository<Sale>{
 	
@@ -19,6 +20,7 @@ public class SaleRepository implements IRepository<Sale>{
 	private SaleRepository() {
 		jedis = ConnectDBRepository.getInstance().getJedis();
 		objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new JavaTimeModule());
 	}
 	
 	// constructor singleton

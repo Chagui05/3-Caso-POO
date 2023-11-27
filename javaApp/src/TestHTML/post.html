@@ -385,22 +385,35 @@ document.getElementById("comprar-button").addEventListener("click", function() {
     const postTitle = document.getElementById("post-title").textContent;
 
     //<!--! Create a sale class item testing purposes
-    class saleItem{
-      constructor(pPost, pId) {
-		this.post = pPost;
-		this.id = pId;
-		this.quantity = document.getElementById("quantity").value;
-		this.price = pPost.getPrice();
-    this.seller = post.user
-    this.buyer = actualUser;
-	}
+    class SaleRequest
+    {
+      constructor() 
+      {
+        this.quantity = document.getElementById("quantity").value;
+        // this.buyer = actualUser;
+      }
     }
     //<!--! la cantidad de sales que hayan en la db
-    let itemSale = new saleItem(post, 4, 4);
+    let saleReq = new SaleRequest ();
 
     // Log the sale item to the console (you can replace this with your desired logic)
-    console.log(itemSale);
-    console.log(actualUser);
+    console.log("Sale item:");
+    console.log(saleReq);
+    
+    fetch(`http://localhost:8080/salemade/${postID}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(saleReq),
+            })
+            .then(res=>res.json())
+            .then(searchResults => {
+                console.log('Sale stored',searchResults );
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
   });
 
 

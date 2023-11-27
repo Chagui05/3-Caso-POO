@@ -6,21 +6,26 @@ public class Sale{
 	private Post post;
 	private int id;
 	private double price;
-	private Vector<User> usersToGiveCommission;
+	private Vector<User> usersToGiveCommission = new Vector<User>();
 	private int quantity;
+//	private User buyer;
+	private User seller;
 	
 	public Sale() {
 		
 	}
 	
-	public Sale(Post pPost, int pId, int pQuantity) {
+	public Sale(Post pPost, int pId, int pQuantity, User pSeller) {
+//		this.buyer = pBuyer;
+		this.seller = pSeller;
 		this.post = pPost;
 		this.id = pId;
 		this.quantity = pQuantity;
-		for(Review review : pPost.getReviews() ) {
-			this.usersToGiveCommission.add(review.getUser());
-		}
 		this.price = pPost.getPrice();
+		for(int i = 0; i < pPost.getReviews().size(); i++ ) {
+			User user = pPost.getReviews().elementAt(i).getUser();
+			this.usersToGiveCommission.add(user);
+		}
 	}
 
 	public Post getPost() {
@@ -61,6 +66,22 @@ public class Sale{
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+//	public User getBuyer() {
+//		return buyer;
+//	}
+//
+//	public void setBuyer(User buyer) {
+//		this.buyer = buyer;
+//	}
+
+	public User getSeller() {
+		return seller;
+	}
+
+	public void setSeller(User seller) {
+		this.seller = seller;
 	}
 	
 

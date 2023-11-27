@@ -28,6 +28,10 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedOrigins("*") 
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*");
+        registry.addMapping("/salemade/{postId}")
+        		.allowedOrigins("*")  
+        		.allowedMethods("GET", "POST", "PUT", "DELETE") 
+        		.allowedHeaders("*");
         
     }
 }
