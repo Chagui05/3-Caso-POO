@@ -11,8 +11,8 @@ public class UnionUser extends User{
 	public UnionUser() {
 		
 	}
-	public UnionUser(String name, int id, float userRating, Vector<SingleUser> pPeopleInUnion) {
-		super(name, id, userRating);
+	public UnionUser(String name, int id, float userRating, Vector<SingleUser> pPeopleInUnion, String email, String password) {
+		super(name, id, userRating, email, password);
 		this.peopleInUnion = pPeopleInUnion;
 		this.commision = 0.07;
 	}

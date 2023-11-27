@@ -212,6 +212,12 @@ function drawChart() {
     </div></footer>
   <section class="u-backlink u-clearfix u-grey-80">
     <script>
+      const userID = 123; // Valor del parámetro userID que quieres agregar
+      const currentURL = window.location.href; // Obtiene la URL actual
+      // Verifica si la URL ya tiene parámetros
+      const separator = currentURL.includes('?') ? '&' : '?';
+      // Crea la nueva URL con el parámetro userID
+      const newURL = `${currentURL}${separator}userID=${userID}`;
       class BlogPost {
         constructor(rating, allRatings, id, date, description, price, product, imageURL, reviews, user) {
             this.rating = rating;
@@ -251,7 +257,7 @@ function drawChart() {
       const blogPosts = [];
       //<!--!==================================================================================fetch
         // Realizar una solicitud GET usando fetch
-        fetch(`http://localhost:8080/user/4444`)//${userID}`)
+        fetch(`http://localhost:8080/user/${userID}`)
           .then(response => {
             // Verificar si la solicitud fue exitosa (código de estado 200)
             if (!response.ok) {
@@ -296,10 +302,8 @@ function drawChart() {
           const listItem = document.createElement('li');
           listItem.classList.add('u-repeater-item'); // Add the repeater item class
 
-          // Create a link for each post with a unique identifier in the URL
           const postLink = document.createElement('a');
-          postLink.href = `post.html?postID=${generateUniqueID(post)}`;
-
+          postLink.href = `post.html?postID=${post.id}`;
           postLink.innerHTML = `
             <div class="u-blog-post u-container-style u-custom-color-1 u-radius-10 u-repeater-item u-shape-round">
               <div class="u-container-layout u-similar-container u-container-layout-1">
