@@ -88,7 +88,7 @@
       // Print the encoded values to the console
       console.log('Email:', emailValue);
       console.log('Password:', '--------');
-      // Suponiendo que tienes un formulario con los campos email y password
+
       const User = {
         type: "singleUser",
         name: "",
@@ -116,6 +116,10 @@
         if (id !== 0) {
           // Redirige a otra página si el ID es diferente de cero
           window.location.href = `Perfil.html?${id}`;
+          // Guardar datos en sessionStorage
+          console.log("s");
+          sessionStorage.setItem('loggedID', id);
+          sessionStorage.setItem('isLogged', true);
         } else {
           const mensajeError = document.getElementById('mensajeError');
           if (mensajeError) {

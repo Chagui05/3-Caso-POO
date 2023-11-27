@@ -2,7 +2,11 @@ package market.agri;
 
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,22 +26,35 @@ public class UserApi {
         //System.out.println(encrypt(currentUser.getPassword(), 4) + " " + decrypt(encrypt(currentUser.getPassword(), 4), 4));
         return currentUser;
     }
+    
 	@PostMapping("/register")//toma los datos del formulario de registro y los guarda en redis
-    public User registerUser(@RequestBody User user) {
+    public int registerUser(@RequestBody User user) {
+
+        List<User> users = userRep.findAll();
+        ArrayList<Integer> userIDs = new ArrayList<Integer>();
+
+        for(User verif : users){
+            if(user.getEmail().equals(verif.getEmail()))//si encuentra un correo ya existente reotrna falso indicando que ya se registroó en algún momento
+                return 0;  
+            userIDs.add(verif.getId());
+        }
+
+        user.setId(generateID(userIDs));
         user.setPassword(encrypt(user.getPassword(), 4));
-		userRep.save(user);
-        return user;
+        user.setName(removeAT(user.getEmail()));
+        userRep.save(user);
+        return user.getId();
     }
+
+    
+
     @PostMapping("/login")//toma los datos del formulario de logIn, los busca en redis para ver si coinciden y retorna un valor booleano según sea el caso.
     public int loginUser(@RequestBody User user) {
         List<User> users = userRep.findAll();
-        System.out.println(user.getEmail() + " " + user.getPassword() + "\n------------------");
-
         for(User verif : users)
-            if(user.getEmail().equals(verif.getEmail()) && user.getPassword().equals(decrypt(verif.getPassword(), 4))){
-                System.out.println("coincidencia encontrada " + verif.getId());
+            if(user.getEmail().equals(verif.getEmail()) && user.getPassword().equals(decrypt(verif.getPassword(), 4)))
                 return verif.getId();                
-            }
+            
         System.out.println("usuario no encontrado");
         return 0;
     }
@@ -75,5 +92,35 @@ public class UserApi {
         }
 
         return result.toString();
+    }
+
+    public int generateFourDigitNumber() {
+        Random random = new Random();
+        return 1000 + random.nextInt(9000); // Número aleatorio entre 1000 y 9999 (ambos inclusive)
+    }
+
+    // Función para obtener un número de 4 dígitos que no exista en la lista proporcionada
+    public int generateID(List<Integer> numbers) {
+        Set<Integer> set = new HashSet<>(numbers);
+
+        int number;
+        do {
+            number = generateFourDigitNumber();
+        } while (set.contains(number)); // Verifica si el número generado ya está en la lista
+
+        return number;
+    }
+    public String removeAT(String input) {
+        // Verificar si el string contiene el carácter '@'
+        if (input.contains("@")) {
+            // Obtener la posición del carácter '@'
+            int atIndex = input.indexOf("@");
+
+            // Obtener la parte del string antes del carácter '@' y retornarla
+            return input.substring(0, atIndex);
+        } else {
+            // Si no se encuentra '@', retornar el string original
+            return input;
+        }
     }
 }

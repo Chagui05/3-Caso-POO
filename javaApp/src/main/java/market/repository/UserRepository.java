@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import market.model.User;
 import redis.clients.jedis.Jedis;
@@ -19,6 +20,7 @@ public class UserRepository implements IRepository<User>{
 	private UserRepository() {
 		jedis = ConnectDBRepository.getInstance().getJedis();
 		objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new JavaTimeModule());
 	}
 	
 	// constructor singleton
