@@ -48,6 +48,7 @@
       </div>
     </div>
     <button class="login" onclick="submitForm()">Login</button>
+    <div id="mensajeError"></div>
     <div class="footer"><span><a href="register.html">Signup</a></span></div>
   </div>
 
@@ -84,12 +85,44 @@
       // Email exists, proceed with authentication or other actions
       console.log('Email exists');
       
-      // Encode the values in Base64
-      const encodedPassword = btoa(passwordValue);
-
       // Print the encoded values to the console
       console.log('Email:', emailValue);
-      console.log('Encoded Password:', encodedPassword);
+      console.log('Password:', '--------');
+      // Suponiendo que tienes un formulario con los campos email y password
+      const User = {
+        type: "singleUser",
+        name: "",
+        id: 0,
+        userRating: 0.0,
+        allRatings: [],
+        wallet: 0.0,
+        posts: [],
+        email: emailValue,
+        password: passwordValue,
+        commision: 0.0
+      };
+
+      // Realiza el fetch para enviar el User al backend
+      fetch("http://localhost:8080/login", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(User),
+      })
+      .then(response => response.json())
+      .then(id => {
+        console.log(id);
+        if (id !== 0) {
+          // Redirige a otra página si el ID es diferente de cero
+          window.location.href = `Perfil.html?${id}`;
+        } else {
+          const mensajeError = document.getElementById('mensajeError');
+          if (mensajeError) {
+            mensajeError.textContent = 'Correo o contraseña incorrectos';
+          }
+        }
+      })
     } else {
       // Email does not exist, handle accordingly
       console.log('Email does not exist');
@@ -99,4 +132,3 @@
   
   </script>
 </body>
-</html>

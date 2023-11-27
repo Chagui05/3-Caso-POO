@@ -19,6 +19,7 @@ public class UserApi {
     @GetMapping("/user/{userID}")// para la pantalla de perfil, toma todos los datos de redis y los muestra en el apartado de perfil
     public User showcaseUser(@PathVariable("userID") int userID) {
 		User currentUser = userRep.findById(userID);
+        //System.out.println(encrypt(currentUser.getPassword(), 4) + " " + decrypt(encrypt(currentUser.getPassword(), 4), 4));
         return currentUser;
     }
 	@PostMapping("/register")//toma los datos del formulario de registro y los guarda en redis
@@ -27,27 +28,21 @@ public class UserApi {
 		userRep.save(user);
         return user;
     }
-    @PostMapping("/login")//toma los datos del formulario de logIn y los busca en redis para ver si son correctos.
-    public User loginUser(@RequestBody User user) {
+    @PostMapping("/login")//toma los datos del formulario de logIn, los busca en redis para ver si coinciden y retorna un valor booleano según sea el caso.
+    public int loginUser(@RequestBody User user) {
         List<User> users = userRep.findAll();
-        for(User verif : users)
-            if(user.getEmail()==verif.getEmail()&&decrypt(user.getPassword(), 4)==decrypt(verif.getPassword(), 4))
-                return verif;
-        return null;//si retorna null es que no se encontró el usuario en la base de datos. debe crear una cuenta.
-    }
-    /* prueba para postman
-    {
-    "type": "singleUser",
-    "name": "Marco",
-    "id": 4444,
-    "userRating": 4.0,
-    "allRatings": null,
-    "wallet": 0.0,
-    "posts": null,
-    "commision": 0.04
-    }*/
+        System.out.println(user.getEmail() + " " + user.getPassword() + "\n------------------");
 
-    public static String encrypt(String text, int shiftKey) {
+        for(User verif : users)
+            if(user.getEmail().equals(verif.getEmail()) && user.getPassword().equals(decrypt(verif.getPassword(), 4))){
+                System.out.println("coincidencia encontrada " + verif.getId());
+                return verif.getId();                
+            }
+        System.out.println("usuario no encontrado");
+        return 0;
+    }
+
+    public String encrypt(String text, int shiftKey) {
         StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < text.length(); i++) {
@@ -64,7 +59,7 @@ public class UserApi {
 
         return result.toString();
     }
-    public static String decrypt(String text, int shiftKey) {
+    public String decrypt(String text, int shiftKey) {
         StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < text.length(); i++) {

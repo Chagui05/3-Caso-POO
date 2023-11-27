@@ -39,16 +39,20 @@ public class AgriApplication {
 		PostRepository postRep = PostRepository.getInstance();
 		redisDB.botonDeAutoDestrucion();
 		
-		SingleUser santi = new SingleUser("Santi", 1234, 4);
-		SingleUser marco = new SingleUser("Marco",4444,1);
-		SingleUser sebas = new SingleUser("Sebastián", 333, 3);
-		SingleUser chris = new SingleUser("christian", 8080, 2);
+		UserApi uApi = new UserApi();
+
+		SingleUser santi = new SingleUser("Santi", 1234, 4, "santi@gmail.com", uApi.encrypt("santiPass", 4));
+		SingleUser marco = new SingleUser("Marco",4444,1, "marco@gmail.com", uApi.encrypt("marcoPass", 4));
+		SingleUser sebas = new SingleUser("Sebastián", 333, 3, "sebas@gmail.com", uApi.encrypt("sebasPass", 4));
+		SingleUser chris = new SingleUser("Christian", 8080, 2,"chris@gmail.com", uApi.encrypt("chrisPass", 4));
 		Review rev = new Review(santi, 0, "Odio mucho este producto", 1020);
 		Review rev1 = new Review(santi, 1, "Odio este producto", 1021);
 		Review rev2 = new Review(santi, 2, "Este producto es muy normal", 1022);
 		Review rev3 = new Review(santi, 4, "Me gustó este producto", 1023);
 		Review rev4 = new Review(santi, 5, "Me gusto mucho este producto", 1024);
 		Tool cerrucho = new Tool("serrucho", 300, Condition.GOOD);
+		Tool pala = new Tool("pala", 550, Condition.REGULAR);
+		Tool azada = new Tool("azada", 200, Condition.GREAT);
 		
 		Vector<Review> revs1 = new Vector<>();
 		revs1.add(rev);
@@ -60,17 +64,18 @@ public class AgriApplication {
 		revs2.add(rev1);
 		revs2.add(rev2);
 		revs2.add(rev3);
-		
-		Post post = new Post(1, LocalDate.now(), "el peor serrucho", cerrucho, "https://i.pinimg.com/1200x/8b/03/1c/8b031cd4c0f0dc70cd229d5dcb1a7497.jpg",revs1, 2122, santi);
-		Post post1 = new Post(2, LocalDate.now(), "el serrucho", cerrucho, "https://preview.redd.it/ktxuj7clhbkb1.jpg?width=1179&format=pjpg&auto=webp&s=b1afe6e579a3c3416659d16b039824e7b0dde873",revs2, 2222, marco);
-		Post post2 = new Post(3, LocalDate.now(), "el serrucho más normal", cerrucho, "https://media.tenor.com/t3dLLNaI50oAAAAC/cat-cats.gif",revs1, 2223, sebas);
-		Post post3 = new Post(4, LocalDate.now(), "el casi mejor serrucho", cerrucho, "https://i1.sndcdn.com/artworks-zyYqA8D0BdfuyH28-WeeHrw-t500x500.jpg",revs2, 2224, chris);
-		Post post4 = new Post(5, LocalDate.now(), "el mejor serrucho", cerrucho, "https://us-tuna-sounds-images.voicemod.net/f3d61aaf-8fef-42a1-b4e5-784618b3b7cf-1676757488979.png",revs1, 2225, santi);
+		//!--!
+		//!lista de posts en perfil, nombre de perfil, register, que inicio lleve al inicio en el burger menu y que al iniciar sesion se mantenga. en posts hay algo que se debe cambiar por el user actual
+		Post post = new Post(1, LocalDate.now(), "El peor serrucho", cerrucho, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ0RFP4OtkbCqSzkGDC39I2HqY563zyRAttA&usqp=CAU",revs1, 2122, santi);
+		Post post1 = new Post(2, LocalDate.now(), "Pala", pala, "https://upload.wikimedia.org/wikipedia/commons/a/ab/Pala_de_excavaci%C3%B3n.jpg",revs2, 2222, marco);
+		Post post2 = new Post(3, LocalDate.now(), "Azada nueva", azada, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS81fEg_EH3FFnv5enookYqFZ7jbilJ6gs5_A&usqp=CAU",revs1, 2223, sebas);
+		Post post3 = new Post(5, LocalDate.now(), "El mejor serrucho", cerrucho, "https://www.shutterstock.com/image-photo/saw-isolated-on-white-background-260nw-425591179.jpg",revs1, 2225, chris);
 		postRep.save(post);
 		postRep.save(post1);
 		postRep.save(post2);
 		postRep.save(post3);
-		postRep.save(post4);
+
+
 
 		reviewRep.save(rev);
 		userRep.save(santi);
@@ -88,14 +93,6 @@ public class AgriApplication {
 		
 		System.out.println("PRUEBA DISTINTA");
 		
-		SingleUser nacho = new SingleUser("nacho", 111, 5);
-		userRep.save(nacho);
-		System.out.println(userRep.findById(111).getName());
-		
-		nacho.setName("manolo");
-		userRep.save(nacho);
-		
-		System.out.println(userRep.findById(111).getName());
 		
 		System.out.println("PRUEBA DISTINTA");
 		userRep.findAll().forEach(element -> System.out.println(element.getName()));

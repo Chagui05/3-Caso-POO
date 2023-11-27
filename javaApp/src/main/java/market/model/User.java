@@ -24,13 +24,13 @@ public abstract class User implements IVisitable {
 	public User() {
 		
 	}
-	public User(String name, int id, double userRating) {
+	public User(String name, int id, double userRating, String email, String password) {
 		this.name = name;
 		this.id = id;
 		this.userRating = userRating;
 		this.wallet = 0;
-		this.email = "";
-		this.password = "";
+		this.email = email;
+		this.password = password;
 	}
 
 	public String getName() {
