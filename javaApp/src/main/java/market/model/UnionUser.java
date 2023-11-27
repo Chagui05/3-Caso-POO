@@ -15,6 +15,7 @@ public class UnionUser extends User{
 		super(name, id, userRating, email, password);
 		this.peopleInUnion = pPeopleInUnion;
 		this.commision = 0.07;
+		this.posts = new Vector<Post>();
 	}
 
 	public Vector<SingleUser> getPeopleInUnion() {

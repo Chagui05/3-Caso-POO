@@ -63,6 +63,7 @@
         </div>
       </div>
       <button class="login" onclick="submitForm()">Register</button>
+      <div id="mensajeError"></div>
       <div class="footer"><span><a href="login.html">Login</a></span></div>
     </div>
   
@@ -96,17 +97,83 @@
 
     const emailExists = isValidEmail(email);
     const passwordsMatch = password === confirmPassword;
-    const encodedPassword = btoa(password);
 
     if (emailExists) {
       // Log values to the console
       console.log("Email:", email);
-      console.log("Encoded Password:", encodedPassword);
+      console.log("Password:", password);
       console.log("Is Organization Account:", isOrganization);
 
       if (passwordsMatch) {
         console.log("Passwords match:", passwordsMatch);
-        // Add code to submit the form or take further action
+        // Objeto de usuario para enviar en la solicitud POST
+        
+        let type = "singleUser";
+        if (isOrganization) {
+        type = "unionUser";
+      } 
+        
+        const newUser = {
+        type: "unionUser",
+        name: "",
+        id: 0,
+        userRating: 0.0,
+        allRatings: [],
+        wallet: 0.0,
+        posts: [],
+        email: email,
+        password: password,
+        commision: 0.4
+      };
+
+
+
+        // Realizar la solicitud POST usando fetch
+        fetch('/register', {
+          method: 'POST', // Método de la solicitud
+          headers: {
+            'Content-Type': 'application/json', // Tipo de contenido que se está enviando (en este caso, JSON)
+          },
+          body: JSON.stringify(newUser), // Convertir el objeto a formato JSON para enviarlo
+        })
+        .then(response => {
+          // Verificar si la solicitud fue exitosa (código de estado 200)
+          if (!response.ok) {
+            throw new Error('La solicitud no fue exitosa');
+          }
+          // Parsear la respuesta a JSON
+          return response.json();
+        })
+        .then(data => {
+          // Trabajar con la respuesta recibida
+          console.log('Respuesta del servidor:', data);
+          if (data != 0) {
+            
+            console.log('¡El usuario ha sido registrado!');
+            console.log(type);
+            //window.location.href = `Perfil.html?${data}`;
+            // Guardar datos en sessionStorage
+            console.log("s");
+            sessionStorage.setItem('loggedID', data);
+            sessionStorage.setItem('isLogged', true);
+          } else {
+            // Registro no exitoso
+            const mensajeError = document.getElementById('mensajeError');
+          if (mensajeError) {
+            mensajeError.textContent = 'El correo ya ha sido registrado.';
+          }
+            console.log('El correo ya ha sido registrado previamente.');
+          }
+        })
+        .catch(error => {
+          // Manejar errores de la solicitud
+          console.error('Se produjo un error:', error);
+        });
+
+
+
+
+
       } else {
         console.log("Passwords do not match");
         // Display a message or take appropriate action to inform the user

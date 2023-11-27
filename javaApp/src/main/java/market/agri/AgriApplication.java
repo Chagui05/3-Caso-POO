@@ -65,7 +65,7 @@ public class AgriApplication {
 		revs2.add(rev2);
 		revs2.add(rev3);
 		//!--!
-		//!lista de posts en perfil, nombre de perfil, register, que inicio lleve al inicio en el burger menu y que al iniciar sesion se mantenga. en posts hay algo que se debe cambiar por el user actual
+		//!register, 
 		Post post = new Post(1, LocalDate.now(), "El peor serrucho", cerrucho, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ0RFP4OtkbCqSzkGDC39I2HqY563zyRAttA&usqp=CAU",revs1, 2122, santi);
 		Post post1 = new Post(2, LocalDate.now(), "Pala", pala, "https://upload.wikimedia.org/wikipedia/commons/a/ab/Pala_de_excavaci%C3%B3n.jpg",revs2, 2222, marco);
 		Post post2 = new Post(3, LocalDate.now(), "Azada nueva", azada, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS81fEg_EH3FFnv5enookYqFZ7jbilJ6gs5_A&usqp=CAU",revs1, 2223, sebas);
@@ -75,7 +75,10 @@ public class AgriApplication {
 		postRep.save(post2);
 		postRep.save(post3);
 
-
+		
+		Vector<Post> posts = postRep.findAll();
+		
+		marco.setPosts(posts);
 
 		reviewRep.save(rev);
 		userRep.save(santi);
@@ -83,8 +86,8 @@ public class AgriApplication {
 		userRep.save(sebas);
 		userRep.save(chris);
 		
-		List<Post> posts = postRep.findAll();
 		System.out.println(posts.toString());
+		
 		
 		
 		System.out.println(reviewRep.findById(1020).getComment());

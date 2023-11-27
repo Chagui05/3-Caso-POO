@@ -5,6 +5,7 @@ import market.repository.PostRepository;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
@@ -21,6 +22,11 @@ public class PostAPI {
 		List<Post> posts = postRep.findAll();
 		return posts;
 	}
+	@PostMapping("/newPost")
+    public Post createReview(@RequestBody Post post) {
+        postRep.save(post);
+        return post;
+    }
 
 }
 

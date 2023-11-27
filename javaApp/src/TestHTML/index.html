@@ -52,7 +52,7 @@
         <nav class="u-align-left u-font-size-14 u-menu u-menu-hamburger u-nav-spacing-25 u-offcanvas u-menu-1" data-responsive-from="XL">
           <div class="menu-collapse">
             <a class="u-button-style u-nav-link" href="#" style="padding: 4px 0px; font-size: calc(1em + 8px);">
-              <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 302 302" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-7b92"></use></svg>
+              <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 302 302"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-7b92"></use></svg>
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg-7b92" x="0px" y="0px" viewBox="0 0 302 302" style="enable-background:new 0 0 302 302;" xml:space="preserve" class="u-svg-content"><g><rect y="36" width="302" height="30"></rect><rect y="236" width="302" height="30"></rect><rect y="136" width="302" height="30"></rect>
 </g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
             </a>
@@ -99,21 +99,26 @@
       </div></footer>
     <section class="u-backlink u-clearfix u-grey-80">
       <script>    
-      const isLoggedIn = false/* Set this dynamically based on your authentication logic */;
-
+      let isLogged = sessionStorage.getItem('isLogged');
+      console.log(isLogged);
       function navigateToPerfil() {
-        // Assuming you have a variable isLoggedIn indicating the user's login status
-        
-        // Modify the destination URLs based on login status
-        const perfilURL = isLoggedIn ? 'perfil.html' : 'login.html';
+        isLogged = sessionStorage.getItem('isLogged');
+        let profileID = sessionStorage.getItem('loggedID')
+        let perfilURL;
+        console.log(isLogged);
+      if (isLogged === "true") {
+        perfilURL = `Perfil.html?${profileID}`;
+      } else {
+        perfilURL = 'login.html';
+      }
   
         // Navigate to the appropriate URL
         window.location.href = perfilURL;
       }
       function navigateToAddPost() {
-        // Assuming you have a variable isLoggedIn indicating the user's login status
+        // Assuming you have a variable isLogged indicating the user's login status
         // Modify the destination URLs based on login status
-        const addPostURL = isLoggedIn ? 'addPost.html' : 'login.html';
+        const addPostURL = isLogged ? 'addPost.html' : 'login.html';
         // Navigate to the appropriate URL
         window.location.href = addPostURL;
       }

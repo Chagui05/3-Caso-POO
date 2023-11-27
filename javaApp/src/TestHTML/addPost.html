@@ -125,6 +125,32 @@
                 unitSelect.value,
                 categorySelect.value
             );
+
+            // Realizar la solicitud POST usando fetch
+            fetch('/newPost', {
+            method: 'POST', // Método de la solicitud
+            headers: {
+                'Content-Type': 'application/json', // Tipo de contenido que se está enviando (en este caso, JSON)
+            },
+            body: JSON.stringify(post), // Convertir el objeto a formato JSON para enviarlo
+            })
+            .then(response => {
+            // Verificar si la solicitud fue exitosa (código de estado 200)
+            if (!response.ok) {
+                throw new Error('La solicitud no fue exitosa');
+            }
+            // Parsear la respuesta a JSON si es necesario
+            return response.json(); // O puedes retornar otra cosa dependiendo de la respuesta del servidor
+            })
+            .then(data => {
+            // Trabajar con la respuesta recibida, si es necesario
+            console.log('Respuesta del servidor:', data);
+            // Realizar otras acciones con la respuesta del servidor, si es necesario
+            })
+            .catch(error => {
+            // Manejar errores de la solicitud
+            console.error('Se produjo un error:', error);
+            });
     
             blogPosts.push(post);
     

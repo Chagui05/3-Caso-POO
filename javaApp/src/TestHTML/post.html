@@ -174,10 +174,23 @@
       <section class="u-backlink u-clearfix u-grey-80">
     <script>
 
+    
+
 
       // Retrieve post data from query parameters
       const queryParams = new URLSearchParams(window.location.search);
       const postID = queryParams.get("postID");
+
+      if(sessionStorage.getItem("isLogged")=="true"){
+        var authorInput = document.getElementById("author");
+        var authorLabel = document.getElementById("author-label");
+
+        // Eliminar el input
+        authorInput.parentNode.removeChild(authorInput);
+
+        // Eliminar la etiqueta (label)
+        authorLabel.parentNode.removeChild(authorLabel);
+      }
       //======================================fetch Get================================================
       const reviews = [];
       
@@ -253,7 +266,14 @@
           });
       });
       function addReview() {
-        const author = document.getElementById("author").value;
+
+        let author = "";
+
+        if(sessionStorage.getItem("isLogged")=="true"){
+          author = sessionStorage.getItem("username");
+        }else{
+          author = document.getElementById("author").value;
+        }
         const rating = selectedValue
         const content = document.getElementById("content").value;
 
@@ -287,17 +307,33 @@
           // Populate the reviews list with the updated data
           populateReviews();
 
-          //======================================fetch Post================================================ no tiene permiso para hacer POST ???? deberían salir de la lista de reviews y guardarse ahí mismo.
+          //======================================fetch Post================================================ 
+          class User{
+            constructor(type, name, id, userRating, allRatings, wallet, posts, email, password, commision){
+              this.type = type;
+              this.name = name;
+              this.id = id;
+              this.userRating = userRating;
+              this.allRatings = allRatings;
+              this.wallet = wallet;
+              this.posts = posts;
+              this.email = email;
+              this.password = password;
+              this.commision = commision;
+            }
+          }
           const fetchReview = {
-            user: author,
+            user: new User("singleUser", author, 0, 0, [], 0, [], "", "", 0.4),
             id: 0,
-            rating:1.0,
-            allRatings: [0.0,0.0],
-            comment: "content",
+            rating: rating,
+            allRatings: [],
+            comment: content,
             likes: 0,
           };
 
-          fetch("http://localhost:8080/reviews", {
+          
+
+          fetch(`http://localhost:8080/reviews/${postID}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

@@ -67,7 +67,7 @@
         <nav class="u-align-left u-font-size-14 u-menu u-menu-hamburger u-nav-spacing-25 u-offcanvas u-menu-1" data-responsive-from="XL">
           <div class="menu-collapse">
             <a class="u-button-style u-nav-link" href="#" style="padding: 4px 0px; font-size: calc(1em + 8px);">
-              <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 302 302" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-7b92"></use></svg>
+              <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 302 302"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-7b92"></use></svg>
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg-7b92" x="0px" y="0px" viewBox="0 0 302 302" style="enable-background:new 0 0 302 302;" xml:space="preserve" class="u-svg-content"><g><rect y="36" width="302" height="30"></rect><rect y="236" width="302" height="30"></rect><rect y="136" width="302" height="30"></rect>
 </g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
             </a>
@@ -83,11 +83,20 @@
             <div class="u-align-center u-border-2 u-border-grey-75 u-container-style u-custom-color-1 u-inner-container-layout u-sidenav">
               <div class="u-inner-container-layout u-sidenav-overflow">
                 <div class="u-menu-close u-menu-close-1"></div>
-                <ul class="u-align-left u-custom-font u-font-montserrat u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="index.html#AboutUs">Inicio</a>
+                <ul class="u-align-left u-custom-font u-font-montserrat u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="index.html">Inicio</a>
 </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="index.html">Sube un producto</a>
 </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Perfil.html">Mi perfil</a>
 </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="index.html#AboutUs">Acerca de nosotros</a>
-</li></ul>
+  <li class="u-nav-item">
+    <a class="u-button-style u-nav-link" href="index.html" onclick="logout()">Cerrar sesión</a>
+  </li>
+  
+  <script>
+    function logout() {
+      sessionStorage.clear();
+      window.location.reload();
+    }
+  </script></li></ul>
               </div>
             </div>
             <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
@@ -106,7 +115,7 @@
     <section class="u-clearfix u-section-1" id="sec-1f9e">
       <div class="u-clearfix u-sheet u-valign-bottom u-sheet-1">
         <div class="u-image u-image-circle u-image-1" alt="" data-image-width="1080" data-image-height="1065"></div>
-        <p class="u-align-center u-custom-font u-font-montserrat u-large-text u-text u-text-variant u-text-1">Nombre</p>
+        
         <div class="u-expanded-width u-tab-links-align-center u-tabs u-tabs-1">
           <ul class="u-grey-10 u-tab-list u-unstyled u-tab-list-1" role="tablist">
             <li class="u-tab-item" role="presentation">
@@ -142,11 +151,11 @@
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Producto');
         data.addColumn('number', 'Comision');
-        data.addRows([
-          ['Tractor John Deere 7230j 2017', 200000],
-          ['Sustrato universal floragard 70 l', 40000],
-          ['Cultivador Metalico', 3250],
-        ]);
+        let postChart = [];
+        data.addRows(blogPosts.forEach(post => {
+            postChart.push([post.product.name, post.price])
+        }));
+        data.addRows(postChart);
         // Set chart options
         var options = {'title':'Comisiones AgroReviews',
                        'width':400,
@@ -171,11 +180,11 @@ function drawChart() {
   var data = new google.visualization.DataTable();
   data.addColumn('string', 'Producto');
   data.addColumn('number', 'Comision');
-  data.addRows([
-    ['Tractor John Deere 7230j 2017', 200000],
-    ['Sustrato universal floragard 70 l', 40000],
-    ['Cultivador Metalico', 3250],
-  ]);
+  let postChart = [];
+  blogPosts.forEach(post => {
+      postChart.push([post.product.name, post.price])
+  });
+  data.addRows(postChart);
   // Calculate total profits
   var totalProfits = 0;
   for (var i = 0; i < data.getNumberOfRows(); i++) {
@@ -191,7 +200,7 @@ function drawChart() {
   // Add the total profits label to the chart div
   document.getElementById('chart_div').appendChild(totalProfitsLabel);
   // Set chart options
-  var options = {'title':'Comisiones AgroReviews',
+  var options = {'title':'Productos AgroReviews',
                  'width':761,
                  'height':800,
                  'backgroundColor':'transparent'};
@@ -212,7 +221,7 @@ function drawChart() {
     </div></footer>
   <section class="u-backlink u-clearfix u-grey-80">
     <script>
-      const userID = 123; // Valor del parámetro userID que quieres agregar
+      const userID = sessionStorage.getItem("loggedID"); // Valor del parámetro userID que quieres agregar
       const currentURL = window.location.href; // Obtiene la URL actual
       // Verifica si la URL ya tiene parámetros
       const separator = currentURL.includes('?') ? '&' : '?';
@@ -254,6 +263,29 @@ function drawChart() {
         }
       }
 
+      class User{
+        constructor(type, name, id, userRating, allRatings, wallet, posts, email, password, commision){
+          this.type = type;
+          this.name = name;
+          this.id = id;
+          this.userRating = userRating;
+          this.allRatings = allRatings;
+          this.wallet = wallet;
+          this.posts = posts;
+          this.email = email;
+          this.password = password;
+          this.commision = commision;
+        }
+      }
+      class Product{
+          constructor(name, price, type, condition){
+            this.name = name;
+            this.price = price;
+            this.type = type;
+            this.condition = condition;
+          }
+        }
+
       const blogPosts = [];
       //<!--!==================================================================================fetch
         // Realizar una solicitud GET usando fetch
@@ -267,7 +299,14 @@ function drawChart() {
             return response.json();
           })
           .then(data => {
-            // Trabajar con el objeto JSON recibido
+            const nameElement = document.querySelector('.u-text-1');
+            // Verificar si hay un nombre en el objeto JSON recibido y asignarlo al elemento
+            if (data.name) {
+              nameElement.textContent = data.name; // Actualizar el contenido del elemento con el nombre del objeto JSON
+              console.log(data.name);
+              sessionStorage.setItem("username", data.name);
+            }
+            console.log(data.posts);
             data.posts.forEach(postData => {
               let reviews = [];
               postData.reviews.forEach(reviewData => {
@@ -282,7 +321,10 @@ function drawChart() {
 
               const post = new BlogPost(postData.rating, postData.allRatings, postData.id, postData.date, postData.description, postData.price, product, postData.imageURL, reviews, user);
               blogPosts.push(post);
-            });            
+            });  
+
+            
+                
             console.log('Objeto JSON recibido:', data);
             displayPosts();
           })
@@ -290,6 +332,8 @@ function drawChart() {
             // Manejar errores de la solicitud
             console.error('Se produjo un error:', error);
           });
+
+          
 
         //==================================================================================fetch    
       // Modify the displayPosts function to clear the existing list and add all posts

@@ -25,15 +25,15 @@ public class ReviewAPI {
         Post currentPost = postRep.findById(postId);
         return currentPost;
     }
-    @PostMapping("/reviews")//Toma los valores del formulario para crear una review y los guarda en redis
-    public Review createReview(@RequestBody Review review) {
+    //Toma los valores del formulario para crear una review y los guarda en redis
+    @PostMapping("/reviews/{postId}")
+    public Review createReview(@RequestBody Review review, @PathVariable int postId) {
         reviewRep.save(review);     
-        //agregar cuando los post de la página tengan id
-        /* Post currentPost = postRep.findById(review.getId());
+        Post currentPost = postRep.findById(postId);
         Vector<Review> reviews = currentPost.getReviews();
         reviews.add(review);
         currentPost.setReviews(reviews);
-        postRep.save(currentPost); */
+        postRep.save(currentPost);
         return review;
     }
     /* prueba para postman. esto es lo que debería tomar del formulario.
